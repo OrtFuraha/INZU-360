@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Manage Reviews</h1>
+        <p>View and manage all property reviews</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Property</th>
+                    <th style="padding: 0.8rem; text-align: left;">User</th>
+                    <th style="padding: 0.8rem; text-align: left;">Rating</th>
+                    <th style="padding: 0.8rem; text-align: left;">Comment</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (reviews && reviews.length > 0) { %>
+                    <% reviews.forEach(review => { %>
+                        <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                            <td style="padding: 0.8rem;"><%= review.id %></td>
+                            <td style="padding: 0.8rem;"><%= review.property_title || 'N/A' %></td>
+                            <td style="padding: 0.8rem;"><%= review.user_name || 'N/A' %></td>
+                            <td style="padding: 0.8rem;">★ <%= review.rating %></td>
+                            <td style="padding: 0.8rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= review.comment || '' %></td>
+                            <td style="padding: 0.8rem;">
+                                <form action="/admin/reviews/<%= review.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this review?');">
+                                    <button type="submit" class="btn btn-sm" style="background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr><td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-light);">No reviews found</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

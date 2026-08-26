@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Settings</h1>
+        <p>Configure platform settings</p>
+    </div>
+    
+    <div style="max-width: 600px; margin: 0 auto;">
+        <form action="/admin/settings" method="POST" style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Platform Name</label>
+                <input type="text" name="platform_name" value="INZU360" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Tagline</label>
+                <input type="text" name="tagline" value="Experience Properties Before You Visit" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Contact Email</label>
+                <input type="email" name="contact_email" value="info@inzu360.com" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Contact Phone</label>
+                <input type="text" name="contact_phone" value="+250 788 123 456" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Address</label>
+                <input type="text" name="address" value="Kigali, Rwanda" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-full">Save Settings</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Manage Subscribers</h1>
+        <p>View all newsletter subscribers</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Email</th>
+                    <th style="padding: 0.8rem; text-align: left;">Subscribed Date</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% subscribers.forEach(subscriber => { %>
+                    <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                        <td style="padding: 0.8rem;"><%= subscriber.id %></td>
+                        <td style="padding: 0.8rem;"><%= subscriber.email %></td>
+                        <td style="padding: 0.8rem;"><%= new Date(subscriber.created_at).toLocaleDateString() %></td>
+                        <td style="padding: 0.8rem;">
+                            <form action="/admin/subscribers/<%= subscriber.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this subscriber?');">
+                                <button type="submit" class="btn btn-sm" style="background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

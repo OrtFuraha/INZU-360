@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Manage Agents</h1>
+        <p>View and manage all agents</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Name</th>
+                    <th style="padding: 0.8rem; text-align: left;">Email</th>
+                    <th style="padding: 0.8rem; text-align: left;">Phone</th>
+                    <th style="padding: 0.8rem; text-align: left;">Verified</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% agents.forEach(agent => { %>
+                    <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                        <td style="padding: 0.8rem;"><%= agent.id %></td>
+                        <td style="padding: 0.8rem;"><%= agent.name %></td>
+                        <td style="padding: 0.8rem;"><%= agent.email %></td>
+                        <td style="padding: 0.8rem;"><%= agent.phone || 'N/A' %></td>
+                        <td style="padding: 0.8rem;">
+                            <% if (agent.is_verified) { %>
+                                <span style="color: var(--emerald);">✓ Verified</span>
+                            <% } else { %>
+                                <span style="color: var(--copper);">Pending</span>
+                            <% } %>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <form action="/admin/agents/<%= agent.id %>/verify" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-primary">Verify</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

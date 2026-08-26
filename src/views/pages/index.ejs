@@ -1,0 +1,300 @@
+<!-- Hero Section with Moving Background -->
+<section style="position: relative; min-height: 85vh; display: flex; align-items: center; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; animation: moveBackground 20s ease-in-out infinite alternate;">
+        <img src="/images/hero-background.png" alt="INZU360 Hero" style="width: 110%; height: 110%; object-fit: cover; object-position: center; margin: -5%;" />
+    </div>
+    
+    <style>
+        @keyframes moveBackground {
+            0% { transform: scale(1) translate(0, 0); }
+            25% { transform: scale(1.05) translate(-2%, -1%); }
+            50% { transform: scale(1.08) translate(2%, 2%); }
+            75% { transform: scale(1.05) translate(-1%, 3%); }
+            100% { transform: scale(1) translate(0, 0); }
+        }
+    </style>
+    
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(31,41,55,0.5) 0%, rgba(31,41,55,0.2) 100%); z-index: 1;"></div>
+    
+    <div style="position: relative; z-index: 2; width: 100%; padding: 4rem 0;">
+        <div class="container">
+            <div style="max-width: 700px;">
+                <h1 style="color: #FAFAF8; font-size: 4.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.2rem; text-shadow: 0 2px 20px rgba(0,0,0,0.5);">
+                    Experience Properties <br><span style="color: #B87333;">Before You Visit</span>
+                </h1>
+                <p style="font-size: 1.25rem; color: rgba(255,255,255,0.95); margin-bottom: 2.5rem; line-height: 1.6; text-shadow: 0 1px 10px rgba(0,0,0,0.4); max-width: 550px;">
+                    Africa's immersive AI-powered real estate marketplace. Discover, explore, and invest in properties digitally.
+                </p>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem;">
+                    <a href="/properties" class="btn btn-secondary btn-lg">Browse Properties</a>
+                    <a href="/virtual-tour" class="btn btn-outline btn-lg" style="color: white; border-color: rgba(255,255,255,0.3);">
+                        <i class="fas fa-vr-cardboard"></i> Explore 3D Tours
+                    </a>
+                </div>
+                
+                <div style="display: flex; gap: 3.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                    <div>
+                        <span style="font-size: 2.2rem; font-weight: 700; color: #B87333; display: block; text-shadow: 0 1px 10px rgba(0,0,0,0.3);"><%= stats.properties ? stats.properties.count : 0 %></span>
+                        <span style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Properties Available</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 2.2rem; font-weight: 700; color: #B87333; display: block; text-shadow: 0 1px 10px rgba(0,0,0,0.3);"><%= stats.agents ? stats.agents.count : 0 %></span>
+                        <span style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Professional Agents</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 2.2rem; font-weight: 700; color: #B87333; display: block; text-shadow: 0 1px 10px rgba(0,0,0,0.3);"><%= stats.users ? stats.users.count : 0 %></span>
+                        <span style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Happy Customers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties -->
+<section class="featured-properties" style="padding: 4rem 0;">
+    <div class="container">
+        <div class="section-header">
+            <div>
+                <h2>Featured Properties</h2>
+                <p>Handpicked exceptional properties for you</p>
+            </div>
+            <a href="/properties" class="btn btn-outline">View All Properties</a>
+        </div>
+        
+        <div class="property-grid">
+            <% if (featuredProperties && featuredProperties.length > 0) { %>
+                <% featuredProperties.forEach(property => { %>
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= property.title %>">
+                            <div class="property-badges">
+                                <span class="badge badge-secondary"><%= property.transaction_type || 'For Sale' %></span>
+                                <% if (property.is_verified) { %>
+                                    <span class="badge badge-primary">Verified</span>
+                                <% } %>
+                            </div>
+                            <div class="property-actions">
+                                <button class="action-btn"><i class="far fa-heart"></i></button>
+                                <button class="action-btn"><i class="fas fa-expand"></i></button>
+                            </div>
+                            <% if (property.has_virtual_tour) { %>
+                                <div class="virtual-tour-badge">
+                                    <i class="fas fa-eye"></i> 360° Tour
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="property-info">
+                            <h3><a href="/properties/<%= property.id %>"><%= property.title %></a></h3>
+                            <div class="property-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span><%= property.address || property.city || 'Kigali, Rwanda' %></span>
+                            </div>
+                            <div class="property-features">
+                                <span><i class="fas fa-bed"></i> <%= property.bedrooms || 0 %> Beds</span>
+                                <span><i class="fas fa-bath"></i> <%= property.bathrooms || 0 %> Baths</span>
+                                <span><i class="fas fa-expand"></i> <%= property.area || 0 %> m²</span>
+                            </div>
+                            <div class="property-footer">
+                                <span class="property-price"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></span>
+                                <a href="/properties/<%= property.id %>" class="btn btn-secondary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">No featured properties available. Check back soon!</p>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Explore by Category - With Background Image -->
+<section style="padding: 4rem 0; background-image: url('/images/category-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 400px; position: relative;">
+    
+    <div class="container" style="position: relative; z-index: 1;">
+        <div class="section-header" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <h2 style="color: #FFFFFF; text-shadow: 0 2px 20px rgba(0,0,0,0.8);">Explore by Category</h2>
+            <p style="color: #FFFFFF; max-width: 600px; margin-top: 0.5rem; text-shadow: 0 2px 20px rgba(0,0,0,0.8);">Find properties that match your lifestyle and investment goals</p>
+        </div>
+        
+        <div class="category-grid">
+            <a href="/properties?type=house" class="category-card" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-home"></i>
+                <span>Houses</span>
+            </a>
+            <a href="/properties?type=apartment" class="category-card" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-building"></i>
+                <span>Apartments</span>
+            </a>
+            <a href="/properties?type=villa" class="category-card" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-crown"></i>
+                <span>Luxury Villas</span>
+            </a>
+            <a href="/properties?type=commercial" class="category-card" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-briefcase"></i>
+                <span>Commercial</span>
+            </a>
+            <a href="/properties?type=land" class="category-card" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-tree"></i>
+                <span>Land</span>
+            </a>
+            <a href="/properties?type=office" class="category-card" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-building"></i>
+                <span>Offices</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Solutions Section -->
+<section class="solutions" style="padding: 4rem 0; background: var(--ivory);">
+    <div class="container">
+        <div class="section-header" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <h2>Our Solutions</h2>
+            <p style="max-width: 600px; margin-top: 0.5rem; color: var(--text-light);">Comprehensive real estate technology solutions for every need</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <a href="/property-marketing" style="text-decoration: none; color: inherit;">
+                <div style="background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: var(--copper); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-camera" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 1.3rem;">Property Marketing</h3>
+                    </div>
+                    <p style="color: var(--text-light); flex: 1; margin-bottom: 1rem;">Professional photography, drone imagery, 3D scanning, virtual tours, digital marketing, and lead generation for real estate professionals.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(31, 41, 55, 0.06);">
+                        <span style="color: var(--copper); font-weight: 600;">Learn More →</span>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">6 Services</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/design-construction" style="text-decoration: none; color: inherit;">
+                <div style="background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: var(--primary); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-pencil-ruler" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 1.3rem;">Design & Construction</h3>
+                    </div>
+                    <p style="color: var(--text-light); flex: 1; margin-bottom: 1rem;">Architecture, interior design, landscape design, residential and commercial construction, renovation, and project management services.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(31, 41, 55, 0.06);">
+                        <span style="color: var(--copper); font-weight: 600;">Learn More →</span>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">8 Services</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/facility-management" style="text-decoration: none; color: inherit;">
+                <div style="background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: var(--emerald); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-tools" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 1.3rem;">Facility Management</h3>
+                    </div>
+                    <p style="color: var(--text-light); flex: 1; margin-bottom: 1rem;">Building maintenance, cleaning services, security management, HVAC, electrical, plumbing, landscaping, and asset management solutions.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(31, 41, 55, 0.06);">
+                        <span style="color: var(--copper); font-weight: 600;">Learn More →</span>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">9 Services</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="/developers" style="text-decoration: none; color: inherit;">
+                <div style="background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="background: var(--copper); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-code" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 1.3rem;">Developers</h3>
+                    </div>
+                    <p style="color: var(--text-light); flex: 1; margin-bottom: 1rem;">API access, platform integration, custom development, partner programs, and tools for building next-generation real estate applications.</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid rgba(31, 41, 55, 0.06);">
+                        <span style="color: var(--copper); font-weight: 600;">Learn More →</span>
+                        <span style="font-size: 0.8rem; color: var(--text-light);">5 Services</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Virtual Tour CTA -->
+<section class="virtual-tour-cta" style="padding: 4rem 0;">
+    <div class="container">
+        <div class="cta-content" style="max-width: 600px; margin: 0 auto; text-align: center;">
+            <h2 style="color: var(--warm-white);">Experience Properties in <span class="highlight">360°</span></h2>
+            <p style="color: rgba(255,255,255,0.8);">Explore properties from anywhere in the world with immersive virtual tours. Walk through every room as if you were there.</p>
+            <a href="/virtual-tour" class="btn btn-secondary btn-lg">
+                <i class="fas fa-vr-cardboard"></i> Start Virtual Tour
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials" style="padding: 4rem 0;">
+    <div class="container">
+        <div class="section-header" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <h2>What Our Clients Say</h2>
+        </div>
+        <div class="testimonial-grid">
+            <% if (testimonials && testimonials.length > 0) { %>
+                <% testimonials.forEach(testimonial => { %>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">★★★★★</div>
+                        <p>"<%= testimonial.content %>"</p>
+                        <div class="testimonial-author">
+                            <strong><%= testimonial.name %></strong>
+                            <span>Verified Client</span>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"INZU360 made finding our dream home effortless. The virtual tour was amazing!"</p>
+                    <div class="testimonial-author">
+                        <strong>Jane M.</strong>
+                        <span>Homeowner</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"Professional service from start to finish. Highly recommend for commercial property."</p>
+                    <div class="testimonial-author">
+                        <strong>John K.</strong>
+                        <span>Business Owner</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>"The 3D scanning technology gave us confidence in our investment decision."</p>
+                    <div class="testimonial-author">
+                        <strong>Sarah W.</strong>
+                        <span>Investor</span>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter" style="padding: 4rem 0;">
+    <div class="container">
+        <div class="newsletter-content">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p>Get the latest property updates, market insights, and investment opportunities.</p>
+            <form action="/subscribe" method="POST" class="newsletter-form">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-secondary">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</section>

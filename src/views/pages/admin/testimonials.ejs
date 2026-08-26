@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Manage Testimonials</h1>
+        <p>Approve or delete testimonials</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Name</th>
+                    <th style="padding: 0.8rem; text-align: left;">Rating</th>
+                    <th style="padding: 0.8rem; text-align: left;">Content</th>
+                    <th style="padding: 0.8rem; text-align: left;">Status</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% testimonials.forEach(testimonial => { %>
+                    <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                        <td style="padding: 0.8rem;"><%= testimonial.id %></td>
+                        <td style="padding: 0.8rem;"><%= testimonial.name %></td>
+                        <td style="padding: 0.8rem;">★ <%= testimonial.rating %></td>
+                        <td style="padding: 0.8rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= testimonial.content %></td>
+                        <td style="padding: 0.8rem;">
+                            <% if (testimonial.is_approved) { %>
+                                <span style="color: var(--emerald);">Approved</span>
+                            <% } else { %>
+                                <span style="color: var(--copper);">Pending</span>
+                            <% } %>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <% if (!testimonial.is_approved) { %>
+                                <form action="/admin/testimonials/<%= testimonial.id %>/approve" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-secondary">Approve</button>
+                                </form>
+                            <% } %>
+                            <form action="/admin/testimonials/<%= testimonial.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this testimonial?');">
+                                <button type="submit" class="btn btn-sm" style="background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="page-header">
+        <h1><%= agent.name %></h1>
+        <p>Professional Real Estate Agent</p>
+    </div>
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 2rem;">
+            <div style="text-align: center;">
+                <div style="font-size: 4rem; color: var(--copper);">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h2><%= agent.name %></h2>
+                <p style="color: var(--text-light);"><i class="fas fa-envelope"></i> <%= agent.email %></p>
+                <p style="color: var(--text-light);"><i class="fas fa-phone"></i> <%= agent.phone || 'N/A' %></p>
+            </div>
+        </div>
+        
+        <% if (properties && properties.length > 0) { %>
+            <h2 style="margin-bottom: 1.5rem;">Properties by <%= agent.name %></h2>
+            <div class="property-grid">
+                <% properties.forEach(property => { %>
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= property.title %>">
+                        </div>
+                        <div class="property-info">
+                            <h3><a href="/properties/<%= property.id %>"><%= property.title %></a></h3>
+                            <div class="property-footer">
+                                <span class="property-price"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></span>
+                                <a href="/properties/<%= property.id %>" class="btn btn-secondary btn-sm">View</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p style="text-align: center; color: var(--text-light);">No properties listed by this agent yet.</p>
+        <% } %>
+    </div>
+</div>

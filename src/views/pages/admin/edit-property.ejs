@@ -1,0 +1,130 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Edit Property</h1>
+        <p>Update property details</p>
+    </div>
+    
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+        <form action="/admin/properties/<%= property.id %>/update" method="POST" enctype="multipart/form-data">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Property Title</label>
+                    <input type="text" name="title" value="<%= property.title %>" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Price</label>
+                    <input type="number" name="price" value="<%= property.price %>" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Currency</label>
+                    <select name="currency" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="RWF" <%= property.currency === 'RWF' ? 'selected' : '' %>>RWF</option>
+                        <option value="USD" <%= property.currency === 'USD' ? 'selected' : '' %>>USD</option>
+                        <option value="EUR" <%= property.currency === 'EUR' ? 'selected' : '' %>>EUR</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Property Type</label>
+                    <select name="property_type" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="house" <%= property.property_type === 'house' ? 'selected' : '' %>>House</option>
+                        <option value="apartment" <%= property.property_type === 'apartment' ? 'selected' : '' %>>Apartment</option>
+                        <option value="villa" <%= property.property_type === 'villa' ? 'selected' : '' %>>Villa</option>
+                        <option value="commercial" <%= property.property_type === 'commercial' ? 'selected' : '' %>>Commercial</option>
+                        <option value="land" <%= property.property_type === 'land' ? 'selected' : '' %>>Land</option>
+                        <option value="office" <%= property.property_type === 'office' ? 'selected' : '' %>>Office</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Transaction Type</label>
+                    <select name="transaction_type" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="sale" <%= property.transaction_type === 'sale' ? 'selected' : '' %>>For Sale</option>
+                        <option value="rent" <%= property.transaction_type === 'rent' ? 'selected' : '' %>>For Rent</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Bedrooms</label>
+                    <input type="number" name="bedrooms" value="<%= property.bedrooms %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Bathrooms</label>
+                    <input type="number" name="bathrooms" value="<%= property.bathrooms %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Area (m²)</label>
+                    <input type="number" name="area" value="<%= property.area %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Address</label>
+                    <input type="text" name="address" value="<%= property.address || '' %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">City</label>
+                    <input type="text" name="city" value="<%= property.city || '' %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">District</label>
+                    <input type="text" name="district" value="<%= property.district || '' %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                </div>
+                
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Description</label>
+                    <textarea name="description" rows="4" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;"><%= property.description || '' %></textarea>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Furnished</label>
+                    <select name="furnished" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="0" <%= property.furnished === 0 ? 'selected' : '' %>>No</option>
+                        <option value="1" <%= property.furnished === 1 ? 'selected' : '' %>>Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Parking</label>
+                    <select name="parking" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="0" <%= property.parking === 0 ? 'selected' : '' %>>No</option>
+                        <option value="1" <%= property.parking === 1 ? 'selected' : '' %>>Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Featured</label>
+                    <select name="is_featured" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="0" <%= property.is_featured === 0 ? 'selected' : '' %>>No</option>
+                        <option value="1" <%= property.is_featured === 1 ? 'selected' : '' %>>Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Status</label>
+                    <select name="status" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                        <option value="active" <%= property.status === 'active' ? 'selected' : '' %>>Active</option>
+                        <option value="pending" <%= property.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="archived" <%= property.status === 'archived' ? 'selected' : '' %>>Archived</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem;">Add New Images</label>
+                    <input type="file" name="images" multiple accept="image/*" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                    <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 0.3rem;">You can select multiple images to add</p>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn btn-primary">Update Property</button>
+                <a href="/admin/properties" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

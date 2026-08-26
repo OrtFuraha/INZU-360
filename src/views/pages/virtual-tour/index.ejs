@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Virtual Property Tours</h1>
+        <p>Experience properties in immersive 360° before you visit</p>
+    </div>
+    
+    <div class="property-grid">
+        <% if (properties && properties.length > 0) { %>
+            <% properties.forEach(property => { %>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= property.title %>">
+                        <div class="virtual-tour-badge">
+                            <i class="fas fa-eye"></i> 360° Tour
+                        </div>
+                    </div>
+                    <div class="property-info">
+                        <h3><a href="/virtual-tour/<%= property.id %>"><%= property.title %></a></h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><%= property.address || property.city || 'Kigali, Rwanda' %></span>
+                        </div>
+                        <div class="property-footer">
+                            <span class="property-price"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></span>
+                            <a href="/virtual-tour/<%= property.id %>" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-vr-cardboard"></i> Tour
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">No virtual tours available. Check back soon!</p>
+        <% } %>
+    </div>
+</div>

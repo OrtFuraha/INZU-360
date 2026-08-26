@@ -1,0 +1,43 @@
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background-image: url('/images/login-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; padding: 2rem 0; margin: 0;">
+    <div style="width: 100%; max-width: 450px; margin: 0 auto; padding: 0 1rem;">
+        <div style="background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); padding: 2.5rem; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">
+                    <span style="background: #1F2937; color: #B87333; padding: 0.2rem 0.5rem; border-radius: 8px; font-size: 1.2rem;">IN</span>
+                    <span style="color: #1F2937;">INZU<span style="color: #B87333;">360</span></span>
+                </div>
+                <h1 style="color: #1F2937; font-size: 1.8rem; margin: 0;">Welcome Back</h1>
+                <p style="color: #6B7280; margin: 0.5rem 0 0;">Login to your INZU360 account</p>
+            </div>
+            
+            <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+                <div style="margin-bottom: 1rem; padding: 0.8rem; background: #FEE2E2; color: #991B1B; border-radius: 8px; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span><%= errors[0].msg %></span>
+                </div>
+            <% } %>
+            
+            <form action="/auth/login" method="POST">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Email Address</label>
+                    <input type="email" name="email" placeholder="Enter your email" value="<%= typeof formData !== 'undefined' && formData ? formData.email || '' : '' %>" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem; background: white; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem; background: white; box-sizing: border-box;">
+                </div>
+                <button type="submit" style="width: 100%; padding: 0.8rem; background: #B87333; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">Login</button>
+            </form>
+            
+            <p style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(31, 41, 55, 0.06); text-align: center; color: #6B7280;">
+                Don't have an account? <a href="/auth/register" style="color: #B87333; font-weight: 600; text-decoration: none;">Register here</a>
+            </p>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="/" style="color: #6B7280; font-size: 0.9rem; text-decoration: none;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

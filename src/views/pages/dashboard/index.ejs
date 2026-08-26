@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Welcome back, <%= user.name %>!</p>
+    </div>
+    
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <i class="fas fa-heart"></i>
+            <div class="stat-number"><%= favoritesCount || 0 %></div>
+            <div class="stat-label">Saved Properties</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-calendar-check"></i>
+            <div class="stat-number"><%= bookings ? bookings.length : 0 %></div>
+            <div class="stat-label">Bookings</div>
+        </div>
+    </div>
+    
+    <div class="dashboard-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-grid">
+            <a href="/dashboard/saved" class="action-card">
+                <i class="fas fa-heart"></i>
+                <span>Saved Properties</span>
+            </a>
+            <a href="/dashboard/bookings" class="action-card">
+                <i class="fas fa-calendar"></i>
+                <span>My Bookings</span>
+            </a>
+            <a href="/dashboard/profile" class="action-card">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="/properties" class="action-card">
+                <i class="fas fa-search"></i>
+                <span>Browse Properties</span>
+            </a>
+        </div>
+    </div>
+    
+    <% if (bookings && bookings.length > 0) { %>
+        <div class="recent-bookings">
+            <h2>Recent Bookings</h2>
+            <div class="booking-list">
+                <% bookings.forEach(booking => { %>
+                    <div style="background: white; padding: 1rem 1.5rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <strong><%= booking.property_title %></strong>
+                        <span><%= booking.date %> at <%= booking.time %></span>
+                        <span class="booking-status status-<%= booking.status %>"><%= booking.status %></span>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+</div>

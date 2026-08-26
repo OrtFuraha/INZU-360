@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Manage Properties</h1>
+            <p>View and manage all properties</p>
+        </div>
+        <div style="display: flex; gap: 1rem;">
+            <a href="/admin/add-property" class="btn btn-secondary">+ Add New Property</a>
+            <form action="/admin/properties/update-featured" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-outline">Auto-Update Featured</button>
+            </form>
+        </div>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">Image</th>
+                    <th style="padding: 0.8rem; text-align: left;">Title</th>
+                    <th style="padding: 0.8rem; text-align: left;">Owner</th>
+                    <th style="padding: 0.8rem; text-align: left;">Price</th>
+                    <th style="padding: 0.8rem; text-align: left;">Featured</th>
+                    <th style="padding: 0.8rem; text-align: left;">Status</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% properties.forEach(property => { %>
+                    <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                        <td style="padding: 0.8rem;">
+                            <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=100&q=80' %>" alt="<%= property.title %>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                        </td>
+                        <td style="padding: 0.8rem;"><a href="/properties/<%= property.id %>" target="_blank"><%= property.title %></a></td>
+                        <td style="padding: 0.8rem;"><%= property.owner_name || 'N/A' %></td>
+                        <td style="padding: 0.8rem;"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></td>
+                        <td style="padding: 0.8rem;">
+                            <form action="/admin/properties/<%= property.id %>/feature" method="POST" style="display: inline;">
+                                <select name="featured" onchange="this.form.submit()" style="padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid #ddd;">
+                                    <option value="1" <%= property.is_featured ? 'selected' : '' %>>Yes</option>
+                                    <option value="0" <%= !property.is_featured ? 'selected' : '' %>>No</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <form action="/admin/properties/<%= property.id %>/status" method="POST" style="display: inline;">
+                                <select name="status" onchange="this.form.submit()" style="padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid #ddd;">
+                                    <option value="active" <%= property.status === 'active' ? 'selected' : '' %>>Active</option>
+                                    <option value="pending" <%= property.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                                    <option value="archived" <%= property.status === 'archived' ? 'selected' : '' %>>Archived</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <a href="/admin/properties/<%= property.id %>/edit" class="btn btn-sm" style="background: var(--primary); color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer; text-decoration: none;">Edit</a>
+                            <form action="/admin/properties/<%= property.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this property?');">
+                                <button type="submit" class="btn btn-sm" style="background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

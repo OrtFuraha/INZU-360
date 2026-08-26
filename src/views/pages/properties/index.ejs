@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Properties</h1>
+        <p>Find your dream property in Rwanda and across Africa</p>
+    </div>
+    
+    <div class="filter-bar" style="background: white; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 2rem;">
+        <form action="/properties" method="GET" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; align-items: end;">
+            <input type="text" name="location" placeholder="Location" value="<%= filters.location || '' %>" style="padding: 0.7rem 1rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 0.95rem; width: 100%; font-family: inherit;">
+            <select name="type" style="padding: 0.7rem 1rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 0.95rem; width: 100%; font-family: inherit;">
+                <option value="">All Types</option>
+                <option value="house" <%= filters.type === 'house' ? 'selected' : '' %>>House</option>
+                <option value="apartment" <%= filters.type === 'apartment' ? 'selected' : '' %>>Apartment</option>
+                <option value="villa" <%= filters.type === 'villa' ? 'selected' : '' %>>Villa</option>
+                <option value="commercial" <%= filters.type === 'commercial' ? 'selected' : '' %>>Commercial</option>
+                <option value="land" <%= filters.type === 'land' ? 'selected' : '' %>>Land</option>
+            </select>
+            <select name="transaction" style="padding: 0.7rem 1rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 0.95rem; width: 100%; font-family: inherit;">
+                <option value="">Transaction</option>
+                <option value="sale" <%= filters.transaction === 'sale' ? 'selected' : '' %>>For Sale</option>
+                <option value="rent" <%= filters.transaction === 'rent' ? 'selected' : '' %>>For Rent</option>
+            </select>
+            <input type="number" name="minPrice" placeholder="Min Price" value="<%= filters.minPrice || '' %>" style="padding: 0.7rem 1rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 0.95rem; width: 100%; font-family: inherit;">
+            <input type="number" name="maxPrice" placeholder="Max Price" value="<%= filters.maxPrice || '' %>" style="padding: 0.7rem 1rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 0.95rem; width: 100%; font-family: inherit;">
+            <button type="submit" class="btn btn-secondary">Search</button>
+        </form>
+    </div>
+    
+    <div class="property-grid">
+        <% if (properties && properties.length > 0) { %>
+            <% properties.forEach(property => { %>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= property.title %>">
+                        <div class="property-badges">
+                            <span class="badge badge-secondary"><%= property.transaction_type || 'For Sale' %></span>
+                            <% if (property.is_verified) { %>
+                                <span class="badge badge-primary">Verified</span>
+                            <% } %>
+                        </div>
+                        <div class="property-actions">
+                            <button class="action-btn"><i class="far fa-heart"></i></button>
+                            <button class="action-btn"><i class="fas fa-expand"></i></button>
+                        </div>
+                        <% if (property.has_virtual_tour) { %>
+                            <div class="virtual-tour-badge">
+                                <i class="fas fa-eye"></i> 360° Tour
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="property-info">
+                        <h3><a href="/properties/<%= property.id %>"><%= property.title %></a></h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><%= property.address || property.city || 'Kigali, Rwanda' %></span>
+                        </div>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> <%= property.bedrooms || 0 %> Beds</span>
+                            <span><i class="fas fa-bath"></i> <%= property.bathrooms || 0 %> Baths</span>
+                            <span><i class="fas fa-expand"></i> <%= property.area || 0 %> m²</span>
+                        </div>
+                        <div class="property-footer">
+                            <span class="property-price"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></span>
+                            <a href="/properties/<%= property.id %>" class="btn btn-secondary btn-sm">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">No properties found. Check back soon!</p>
+        <% } %>
+    </div>
+</div>

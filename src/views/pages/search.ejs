@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Search Results</h1>
+        <p>Found <%= properties ? properties.length : 0 %> properties</p>
+    </div>
+    
+    <div class="property-grid">
+        <% if (properties && properties.length > 0) { %>
+            <% properties.forEach(property => { %>
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= property.title %>">
+                    </div>
+                    <div class="property-info">
+                        <h3><a href="/properties/<%= property.id %>"><%= property.title %></a></h3>
+                        <div class="property-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><%= property.address || property.city || 'Kigali, Rwanda' %></span>
+                        </div>
+                        <div class="property-footer">
+                            <span class="property-price"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></span>
+                            <a href="/properties/<%= property.id %>" class="btn btn-secondary btn-sm">View</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">No properties found matching your search criteria.</p>
+        <% } %>
+    </div>
+</div>

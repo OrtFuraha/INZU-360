@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 900px; margin: 0 auto;">
+        <div>
+            <h3>Get in Touch</h3>
+            <div style="margin: 1.5rem 0;">
+                <p><i class="fas fa-map-marker-alt" style="color: var(--copper); width: 24px;"></i> Kigali, Rwanda</p>
+                <p><i class="fas fa-phone" style="color: var(--copper); width: 24px;"></i> +250 788 123 456</p>
+                <p><i class="fas fa-envelope" style="color: var(--copper); width: 24px;"></i> info@inzu360.com</p>
+            </div>
+            
+            <div>
+                <h4>Working Hours</h4>
+                <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
+                <p>Saturday: 9:00 AM - 2:00 PM</p>
+                <p style="color: var(--text-light);">Sunday: Closed</p>
+            </div>
+        </div>
+        
+        <div>
+            <form action="/contact" method="POST" style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" name="subject" placeholder="Subject" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <textarea name="message" placeholder="Your Message" rows="5" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit; resize: vertical;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>

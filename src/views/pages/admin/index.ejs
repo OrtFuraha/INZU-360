@@ -1,0 +1,89 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome back, <%= user.name %>!</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-users" style="font-size: 2rem; color: var(--copper);"></i>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);"><%= stats.users.count %></div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">Total Users</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-home" style="font-size: 2rem; color: var(--copper);"></i>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);"><%= stats.properties.count %></div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">Total Properties</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-user-tie" style="font-size: 2rem; color: var(--copper);"></i>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);"><%= stats.agents.count %></div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">Total Agents</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-calendar-check" style="font-size: 2rem; color: var(--copper);"></i>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);"><%= stats.bookings.count %></div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">Total Bookings</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-envelope" style="font-size: 2rem; color: var(--copper);"></i>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);"><%= stats.messages.count %></div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">Total Messages</div>
+        </div>
+        <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-newspaper" style="font-size: 2rem; color: var(--copper);"></i>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--primary);"><%= stats.subscribers.count %></div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">Subscribers</div>
+        </div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div>
+            <h2>Recent Users</h2>
+            <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: var(--primary); color: white;">
+                        <tr>
+                            <th style="padding: 0.8rem; text-align: left;">Name</th>
+                            <th style="padding: 0.8rem; text-align: left;">Email</th>
+                            <th style="padding: 0.8rem; text-align: left;">Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentUsers.forEach(user => { %>
+                            <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                                <td style="padding: 0.8rem;"><%= user.name %></td>
+                                <td style="padding: 0.8rem;"><%= user.email %></td>
+                                <td style="padding: 0.8rem;"><span style="background: var(--ivory); padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;"><%= user.role %></span></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div>
+            <h2>Recent Properties</h2>
+            <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: var(--primary); color: white;">
+                        <tr>
+                            <th style="padding: 0.8rem; text-align: left;">Title</th>
+                            <th style="padding: 0.8rem; text-align: left;">Owner</th>
+                            <th style="padding: 0.8rem; text-align: left;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentProperties.forEach(property => { %>
+                            <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                                <td style="padding: 0.8rem;"><%= property.title %></td>
+                                <td style="padding: 0.8rem;"><%= property.owner_name || 'N/A' %></td>
+                                <td style="padding: 0.8rem;"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

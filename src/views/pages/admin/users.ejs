@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Manage Users</h1>
+        <p>View and manage all platform users</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Name</th>
+                    <th style="padding: 0.8rem; text-align: left;">Email</th>
+                    <th style="padding: 0.8rem; text-align: left;">Role</th>
+                    <th style="padding: 0.8rem; text-align: left;">Verified</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                        <td style="padding: 0.8rem;"><%= user.id %></td>
+                        <td style="padding: 0.8rem;"><%= user.name %></td>
+                        <td style="padding: 0.8rem;"><%= user.email %></td>
+                        <td style="padding: 0.8rem;">
+                            <form action="/admin/users/<%= user.id %>/role" method="POST" style="display: inline;">
+                                <select name="role" onchange="this.form.submit()" style="padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid #ddd;">
+                                    <option value="customer" <%= user.role === 'customer' ? 'selected' : '' %>>Customer</option>
+                                    <option value="agent" <%= user.role === 'agent' ? 'selected' : '' %>>Agent</option>
+                                    <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <% if (user.is_verified) { %>
+                                <span style="color: var(--emerald);">✓ Verified</span>
+                            <% } else { %>
+                                <form action="/admin/users/<%= user.id %>/verify" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-primary">Verify</button>
+                                </form>
+                            <% } %>
+                        </td>
+                        <td style="padding: 0.8rem;">
+                            <form action="/admin/users/<%= user.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this user?');">
+                                <button type="submit" class="btn btn-sm" style="background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

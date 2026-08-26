@@ -1,0 +1,147 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Add New Property</h1>
+        <p>Create a new property listing with images</p>
+    </div>
+    
+    <% if (error_msg) { %>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            <span><%= error_msg %></span>
+        </div>
+    <% } %>
+    
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+        <form action="/admin/properties/create" method="POST" enctype="multipart/form-data">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Property Title <span style="color: red;">*</span></label>
+                    <input type="text" name="title" placeholder="Enter property title" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Price <span style="color: red;">*</span></label>
+                    <input type="number" name="price" placeholder="0" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Currency</label>
+                    <select name="currency" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="RWF">RWF</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Property Type</label>
+                    <select name="property_type" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="house">House</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="villa">Villa</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="land">Land</option>
+                        <option value="office">Office</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Transaction Type</label>
+                    <select name="transaction_type" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="sale">For Sale</option>
+                        <option value="rent">For Rent</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Bedrooms</label>
+                    <input type="number" name="bedrooms" value="0" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Bathrooms</label>
+                    <input type="number" name="bathrooms" value="0" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Area (m²)</label>
+                    <input type="number" name="area" value="0" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Address</label>
+                    <input type="text" name="address" placeholder="Street address" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">City</label>
+                    <input type="text" name="city" placeholder="City" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">District</label>
+                    <input type="text" name="district" placeholder="District" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                </div>
+                
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Description</label>
+                    <textarea name="description" rows="4" placeholder="Property description" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Furnished</label>
+                    <select name="furnished" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Parking</label>
+                    <select name="parking" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Security</label>
+                    <select name="security" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Feature on Homepage</label>
+                    <select name="is_featured" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Status</label>
+                    <select name="status" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                        <option value="active">Active</option>
+                        <option value="pending">Pending</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem; grid-column: span 2;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.3rem; color: #1F2937;">Property Images</label>
+                    <input type="file" name="images" multiple accept="image/*" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 1rem;">
+                    <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 0.3rem;">
+                        <i class="fas fa-info-circle"></i> You can select multiple images from your computer (Desktop, Downloads, or any folder)
+                    </p>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn btn-primary" style="padding: 0.8rem 2rem; font-size: 1rem;">Add Property</button>
+                <a href="/admin/properties" class="btn btn-outline" style="padding: 0.8rem 2rem; font-size: 1rem;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

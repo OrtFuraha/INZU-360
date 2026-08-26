@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="page-header">
+        <h1><%= property.title %></h1>
+        <p>360° Virtual Tour</p>
+    </div>
+    
+    <div style="background: #1a1a1a; border-radius: var(--radius); padding: 3rem; text-align: center; min-height: 500px; display: flex; align-items: center; justify-content: center;">
+        <div>
+            <i class="fas fa-vr-cardboard" style="font-size: 4rem; color: var(--copper);"></i>
+            <h3 style="color: white; margin-top: 1rem;">Interactive 3D Tour</h3>
+            <p style="color: rgba(255,255,255,0.7);">Virtual tour coming soon. Contact us for a live demo.</p>
+            <p style="color: rgba(255,255,255,0.4); font-size: 0.9rem; margin-top: 0.5rem;">Matterport integration in progress</p>
+        </div>
+    </div>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="/properties/<%= property.id %>" class="btn btn-outline">
+            <i class="fas fa-arrow-left"></i> Back to Property
+        </a>
+    </div>
+</div>

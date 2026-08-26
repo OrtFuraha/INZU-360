@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Pricing Plans</h1>
+        <p>Choose the plan that fits your needs</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; padding: 2rem 0;">
+        <% if (plans && plans.length > 0) { %>
+            <% plans.forEach((plan, index) => { %>
+                <div style="background: white; padding: 2.5rem 2rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); text-align: center; transition: all 0.2s ease; <%= index === 1 ? 'border-color: var(--copper); box-shadow: var(--shadow-hover);' : '' %>">
+                    <h3><%= plan.name %></h3>
+                    <div style="font-size: 3rem; font-weight: 700; color: var(--primary); margin: 1rem 0;"><%= plan.price %></div>
+                    <ul style="text-align: left; margin: 1.5rem 0;">
+                        <% plan.features.forEach(feature => { %>
+                            <li style="padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem; color: var(--text-light);">
+                                <i class="fas fa-check" style="color: var(--emerald);"></i> <%= feature %>
+                            </li>
+                        <% }); %>
+                    </ul>
+                    <a href="/contact" class="btn <%= index === 1 ? 'btn-secondary' : 'btn-outline' %>">Get Started</a>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</div>

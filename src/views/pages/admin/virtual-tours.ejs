@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Virtual Tours</h1>
+        <p>Manage 3D virtual tours</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Property</th>
+                    <th style="padding: 0.8rem; text-align: left;">Status</th>
+                    <th style="padding: 0.8rem; text-align: left;">Views</th>
+                    <th style="padding: 0.8rem; text-align: left;">Created</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (tours && tours.length > 0) { %>
+                    <% tours.forEach(tour => { %>
+                        <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                            <td style="padding: 0.8rem;"><%= tour.id %></td>
+                            <td style="padding: 0.8rem;"><%= tour.property_title || 'N/A' %></td>
+                            <td style="padding: 0.8rem;">
+                                <span style="background: <%= tour.status === 'active' ? 'var(--emerald)' : 'var(--copper)' %>; color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem;"><%= tour.status %></span>
+                            </td>
+                            <td style="padding: 0.8rem;"><%= tour.views || 0 %></td>
+                            <td style="padding: 0.8rem;"><%= new Date(tour.created_at).toLocaleDateString() %></td>
+                            <td style="padding: 0.8rem;">
+                                <a href="/virtual-tour/<%= tour.property_id %>" target="_blank" class="btn btn-sm btn-secondary">View</a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr><td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-light);">No virtual tours found</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

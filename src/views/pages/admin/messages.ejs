@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Manage Messages</h1>
+        <p>View all platform messages</p>
+    </div>
+    
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">From</th>
+                    <th style="padding: 0.8rem; text-align: left;">To</th>
+                    <th style="padding: 0.8rem; text-align: left;">Property</th>
+                    <th style="padding: 0.8rem; text-align: left;">Message</th>
+                    <th style="padding: 0.8rem; text-align: left;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% messages.forEach(message => { %>
+                    <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                        <td style="padding: 0.8rem;"><%= message.id %></td>
+                        <td style="padding: 0.8rem;"><%= message.sender_name || 'N/A' %></td>
+                        <td style="padding: 0.8rem;"><%= message.receiver_name || 'N/A' %></td>
+                        <td style="padding: 0.8rem;"><%= message.property_title || 'N/A' %></td>
+                        <td style="padding: 0.8rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= message.message %></td>
+                        <td style="padding: 0.8rem;">
+                            <% if (message.is_read) { %>
+                                <span style="color: var(--emerald);">Read</span>
+                            <% } else { %>
+                                <span style="color: var(--copper);">Unread</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>

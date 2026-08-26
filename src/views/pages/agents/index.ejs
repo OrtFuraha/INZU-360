@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Real Estate Agents</h1>
+        <p>Professional agents ready to help you find your dream property</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto;">
+        <% if (agents && agents.length > 0) { %>
+            <% agents.forEach(agent => { %>
+                <div style="background: white; padding: 2rem; border-radius: var(--radius); text-align: center; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+                    <div style="font-size: 4rem; color: var(--copper);">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3 style="margin: 0.5rem 0;"><%= agent.name %></h3>
+                    <p style="color: var(--text-light);"><i class="fas fa-envelope"></i> <%= agent.email %></p>
+                    <p style="color: var(--text-light);"><i class="fas fa-phone"></i> <%= agent.phone || 'N/A' %></p>
+                    <a href="/agents/<%= agent.id %>" class="btn btn-outline" style="margin-top: 1rem;">View Profile</a>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-light);">No agents available at the moment. Check back soon!</p>
+        <% } %>
+    </div>
+</div>

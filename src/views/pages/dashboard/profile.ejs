@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="page-header">
+        <h1>My Profile</h1>
+        <p>Manage your account information</p>
+    </div>
+    
+    <div style="max-width: 600px; margin: 0 auto;">
+        <div style="background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <div style="text-align: center;">
+                <i class="fas fa-user-circle" style="font-size: 4rem; color: var(--copper);"></i>
+            </div>
+            <div style="margin: 1.5rem 0;">
+                <p><strong>Name:</strong> <%= user.name %></p>
+                <p><strong>Email:</strong> <%= user.email %></p>
+                <p><strong>Phone:</strong> <%= user.phone || 'No phone number' %></p>
+                <p><strong>Role:</strong> <%= user.role %></p>
+            </div>
+            
+            <form action="/dashboard/profile" method="POST">
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" name="name" value="<%= user.name %>" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="tel" name="phone" value="<%= user.phone || '' %>" style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit;">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
