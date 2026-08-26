@@ -1,6 +1,5 @@
 const sqlite3 = require('better-sqlite3');
 const path = require('path');
-const bcrypt = require('bcryptjs');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, '../../inzu360.db');
 let db;
@@ -11,7 +10,6 @@ function connectDB() {
     console.log('✅ Connected to SQLite database');
     createTables();
     seedData();
-    createAdminUser();
     return db;
   } catch (err) {
     console.error('❌ Database connection error:', err.message);
@@ -206,33 +204,6 @@ function createTables() {
       )
     `);
 
-    // Property reviews
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS property_reviews (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        property_id INTEGER NOT NULL,
-        user_id INTEGER NOT NULL,
-        rating INTEGER CHECK(rating >= 1 AND rating <= 5),
-        comment TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (property_id) REFERENCES properties (id) ON DELETE CASCADE,
-        FOREIGN KEY (user_id) REFERENCES users (id)
-      )
-    `);
-
-    // Audit logs
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS audit_logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        action TEXT NOT NULL,
-        details TEXT,
-        ip_address TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (id)
-      )
-    `);
-
     console.log('✅ Database tables created/verified');
   } catch (err) {
     console.error('❌ Error creating tables:', err.message);
@@ -257,31 +228,25 @@ function seedData() {
   }
 }
 
-function createAdminUser() {
-  try {
-    // Check if admin exists
-    const admin = db.prepare("SELECT * FROM users WHERE email = 'admin@inzu360.com'").get();
-    
-    if (!admin) {
-      const hashedPassword = bcrypt.hashSync('admin123', 10);
-      db.prepare(`
-        INSERT INTO users (name, email, password, role, is_verified)
-        VALUES (?, ?, ?, ?, ?)
-      `).run('Admin', 'admin@inzu360.com', hashedPassword, 'admin', 1);
-      console.log('✅ Admin user created successfully!');
-      console.log('📧 Email: admin@inzu360.com');
-      console.log('🔑 Password: admin123');
-    } else {
-      // Ensure admin is verified and has correct role
-      db.prepare("UPDATE users SET role = 'admin', is_verified = 1 WHERE email = 'admin@inzu360.com'").run();
-    }
-  } catch (err) {
-    console.error('❌ Error creating admin user:', err.message);
-  }
-}
-
 function getDB() {
   return db;
 }
 
 module.exports = { connectDB, getDB };
+// Add property_reviews table if not exists
+try {
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS property_reviews (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            property_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            rating INTEGER CHECK(rating >= 1 AND rating <= 5),
+            comment TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (property_id) REFERENCES properties (id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    `);
+} catch (err) {
+    // Table already exists
+}
