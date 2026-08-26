@@ -15,4 +15,10 @@ services:
         generateValue: true
       - key: APP_URL
         value: https://inzu-360.onrender.com
+      - key: DB_PATH
+        value: /data/inzu360.db
     plan: free
+    disk:
+      name: inzu360-data
+      mountPath: /data
+      sizeGB: 1
