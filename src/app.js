@@ -10,6 +10,9 @@ const { connectDB } = require('./config/database');
 const app = express();
 const PORT = process.env.PORT || 3601;
 
+// Trust proxy for Render
+app.set('trust proxy', 1);
+
 // Connect to SQLite
 connectDB();
 
@@ -25,12 +28,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session
+// Session configuration for Render
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'secret',
+  secret: process.env.SESSION_SECRET || 'inzu360-secret-key-change-in-production',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production' }
+  saveUninitialized: false,
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: 'lax'
+  }
 }));
 
 // Flash messages
@@ -70,11 +78,11 @@ app.use((req, res) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('❌ Error:', err.stack);
   res.status(500).render('pages/500', { title: 'Server Error' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 INZU360 Premium running on http://localhost:${PORT}`);
   console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🎨 Brand: Luxury - Charcoal Black | Copper Bronze | Emerald Green`);

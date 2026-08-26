@@ -44,17 +44,14 @@ router.post('/register', [
   const { name, email, password, phone, role } = req.body;
   const db = getDB();
 
-  // Check if user exists
   const existingUser = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
   if (existingUser) {
     req.flash('error_msg', 'Email already registered');
     return res.redirect('/auth/register');
   }
 
-  // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  // Create user
+  
   try {
     db.prepare(`
       INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)
@@ -69,7 +66,7 @@ router.post('/register', [
   }
 });
 
-// Login POST
+// Login POST - fixed for Render
 router.post('/login', [
   body('email').isEmail().withMessage('Valid email is required'),
   body('password').notEmpty().withMessage('Password is required')
@@ -115,22 +112,30 @@ router.post('/login', [
     is_verified: user.is_verified
   };
 
-  console.log('✅ Session created for:', user.name, 'Role:', user.role);
-
-  req.flash('success_msg', 'Welcome back!');
-  
-  // Redirect to admin if admin, otherwise dashboard
-  if (user.role === 'admin') {
-    return res.redirect('/admin');
-  }
-  res.redirect('/dashboard');
+  // Save session explicitly for Render
+  req.session.save((err) => {
+    if (err) {
+      console.error('❌ Session save error:', err);
+      req.flash('error_msg', 'Login failed. Please try again.');
+      return res.redirect('/auth/login');
+    }
+    
+    console.log('✅ Session created for:', user.name, 'Role:', user.role);
+    req.flash('success_msg', 'Welcome back!');
+    
+    // Redirect based on role
+    if (user.role === 'admin') {
+      return res.redirect('/admin');
+    }
+    res.redirect('/dashboard');
+  });
 });
 
 // Logout
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.error(err);
+      console.error('Logout error:', err);
     }
     res.redirect('/');
   });

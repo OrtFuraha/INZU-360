@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: inzu360
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: APP_URL
+        value: https://inzu-360.onrender.com
+    plan: free
