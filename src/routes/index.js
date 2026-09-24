@@ -14,27 +14,41 @@ router.get('/', (req, res) => {
       ORDER BY p.created_at DESC LIMIT 6
     `).all();
 
-    const propertiesCount = db.prepare("SELECT COUNT(*) as count FROM properties WHERE status = 'active'").get();
-    const agentsCount = db.prepare("SELECT COUNT(*) as count FROM users WHERE role = 'agent' AND is_verified = 1").get();
-    const usersCount = db.prepare("SELECT COUNT(*) as count FROM users WHERE role = 'customer'").get();
+    const propertiesCount = db.prepare(
+      "SELECT COUNT(*) as count FROM properties WHERE status = 'active'"
+    ).get();
+
+    const usersCount = db.prepare(
+      "SELECT COUNT(*) as count FROM users WHERE role = 'customer'"
+    ).get();
 
     const testimonials = db.prepare(`
-      SELECT * FROM testimonials WHERE is_approved = 1 ORDER BY created_at DESC LIMIT 3
+      SELECT * FROM testimonials
+      WHERE is_approved = 1
+      ORDER BY created_at DESC LIMIT 3
     `).all();
 
     res.render('pages/index', {
       title: 'INZU360 - Experience Properties Before You Visit',
       featuredProperties: featuredProperties || [],
-      stats: { properties: propertiesCount || { count: 0 }, agents: agentsCount || { count: 0 }, users: usersCount || { count: 0 } },
-      testimonials: testimonials || []
+      testimonials: testimonials || [],
+      stats: {
+        properties: propertiesCount || { count: 0 },
+        users: usersCount || { count: 0 }
+      }
     });
+
   } catch (err) {
     console.error('Error loading homepage:', err.message);
+
     res.render('pages/index', {
       title: 'INZU360 - Experience Properties Before You Visit',
       featuredProperties: [],
-      stats: { properties: { count: 0 }, agents: { count: 0 }, users: { count: 0 } },
-      testimonials: []
+      testimonials: [],
+      stats: {
+        properties: { count: 0 },
+        users: { count: 0 }
+      }
     });
   }
 });

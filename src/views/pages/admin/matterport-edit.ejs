@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Edit Matterport Tour</h1>
+        <p>Update the Digital Twin for this property</p>
+    </div>
+
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+        <form action="/admin/matterport/<%= tour.id %>/update" method="POST">
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">Property *</label>
+                <select name="property_id" required style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px;">
+                    <% properties.forEach(p => { %>
+                        <option value="<%= p.id %>" <%= p.id === tour.property_id ? 'selected' : '' %>><%= p.title %></option>
+                    <% }); %>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-weight: 600; margin-bottom: 0.4rem;">
+                    Matterport Share Link or Embed Code *
+                </label>
+                <textarea name="matterport_input" rows="4" required
+                    style="width: 100%; padding: 0.8rem; border: 1px solid #E5E7EB; border-radius: 8px; font-family: monospace; font-size: 0.9rem;"><%= tour.matterport_url || ('https://my.matterport.com/show/?m=' + (tour.matterport_model_id || '')) %></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; background: var(--ivory); padding: 1rem; border-radius: 8px; cursor: pointer;">
+                    <input type="checkbox" name="is_published" value="1" <%= tour.is_published ? 'checked' : '' %>>
+                    <span><strong>Published</strong></span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; background: var(--ivory); padding: 1rem; border-radius: 8px; cursor: pointer;">
+                    <input type="checkbox" name="featured_on_homepage" value="1" <%= tour.featured_on_homepage ? 'checked' : '' %>>
+                    <span><strong>Feature on Homepage</strong></span>
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">Update Tour</button>
+                <a href="/admin/matterport" class="btn btn-outline">Cancel</a>
+                <a href="/virtual-tour/<%= tour.property_id %>" target="_blank" class="btn btn-secondary">Preview</a>
+            </div>
+        </form>
+    </div>
+</div>

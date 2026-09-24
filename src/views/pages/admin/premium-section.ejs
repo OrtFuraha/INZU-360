@@ -1,0 +1,367 @@
+<style>
+    .premium-page {
+        padding: 28px;
+        max-width: 1500px;
+        margin: 0 auto;
+    }
+
+    .premium-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+    .premium-eyebrow {
+        color: #b87333;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .premium-title {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 750;
+        color: #f5f5f5;
+    }
+
+    .premium-subtitle {
+        margin: 8px 0 0;
+        color: #8e9299;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .premium-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .premium-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 15px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        border: 1px solid #30343a;
+        color: #e9e9e9;
+        background: #1a1d21;
+        transition: .2s ease;
+    }
+
+    .premium-btn:hover {
+        border-color: #b87333;
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    .premium-btn.primary {
+        background: #b87333;
+        color: #111;
+        border-color: #b87333;
+    }
+
+    .premium-btn.primary:hover {
+        background: #ca8642;
+    }
+
+    .premium-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .premium-card {
+        background: linear-gradient(145deg, #1b1e22, #15171a);
+        border: 1px solid #292d32;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.14);
+    }
+
+    .premium-card-label {
+        color: #858b93;
+        font-size: 12px;
+        font-weight: 650;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+    }
+
+    .premium-card-value {
+        margin-top: 10px;
+        font-size: 28px;
+        font-weight: 800;
+        color: #f4f4f4;
+    }
+
+    .premium-card-meta {
+        margin-top: 6px;
+        color: #697078;
+        font-size: 12px;
+    }
+
+    .premium-content {
+        background: #17191d;
+        border: 1px solid #292d32;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .premium-content-header {
+        padding: 20px 22px;
+        border-bottom: 1px solid #292d32;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .premium-content-title {
+        margin: 0;
+        color: #f0f0f0;
+        font-size: 16px;
+        font-weight: 750;
+    }
+
+    .premium-table-wrap {
+        overflow-x: auto;
+    }
+
+    .premium-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .premium-table th {
+        padding: 13px 20px;
+        text-align: left;
+        color: #777e87;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        font-weight: 750;
+        background: #141619;
+        white-space: nowrap;
+    }
+
+    .premium-table td {
+        padding: 15px 20px;
+        border-top: 1px solid #24282d;
+        color: #c9cdd2;
+        font-size: 13px;
+    }
+
+    .premium-table tr:hover td {
+        background: #1b1e22;
+    }
+
+    .status {
+        display: inline-flex;
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .status.active,
+    .status.verified,
+    .status.success {
+        background: rgba(30, 150, 95, .13);
+        color: #52c795;
+    }
+
+    .status.pending {
+        background: rgba(184, 115, 51, .13);
+        color: #d59458;
+    }
+
+    .status.inactive,
+    .status.failed {
+        background: rgba(190, 70, 70, .13);
+        color: #df7777;
+    }
+
+    .status.neutral {
+        background: #25292e;
+        color: #a5abb2;
+    }
+
+    .empty-state {
+        padding: 60px 25px;
+        text-align: center;
+        color: #737981;
+    }
+
+    .empty-state-icon {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 15px;
+        border-radius: 14px;
+        background: #22252a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #b87333;
+        font-size: 22px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .info-box {
+        border: 1px solid #292d32;
+        background: #141619;
+        border-radius: 12px;
+        padding: 18px;
+    }
+
+    .info-box h4 {
+        margin: 0 0 8px;
+        color: #ddd;
+        font-size: 14px;
+    }
+
+    .info-box p {
+        margin: 0;
+        color: #777f87;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 1100px) {
+        .premium-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 700px) {
+        .premium-page {
+            padding: 18px;
+        }
+
+        .premium-header {
+            flex-direction: column;
+        }
+
+        .premium-grid,
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .premium-title {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="premium-page">
+
+    <div class="premium-header">
+        <div>
+            <div class="premium-eyebrow">INZU360 ADMIN CONSOLE</div>
+            <h1 class="premium-title"><%= title %></h1>
+            <p class="premium-subtitle"><%= subtitle %></p>
+        </div>
+
+        <% if (actions && actions.length) { %>
+            <div class="premium-actions">
+                <% actions.forEach(action => { %>
+                    <a class="premium-btn <%= action.primary ? 'primary' : '' %>"
+                       href="<%= action.href %>">
+                        <%= action.label %>
+                    </a>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+
+    <% if (stats && stats.length) { %>
+        <div class="premium-grid">
+            <% stats.forEach(stat => { %>
+                <div class="premium-card">
+                    <div class="premium-card-label"><%= stat.label %></div>
+                    <div class="premium-card-value"><%= stat.value %></div>
+                    <% if (stat.meta) { %>
+                        <div class="premium-card-meta"><%= stat.meta %></div>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <div class="premium-content">
+        <div class="premium-content-header">
+            <h2 class="premium-content-title"><%= typeof tableTitle !== 'undefined' ? tableTitle : 'Overview' %></h2>
+        </div>
+
+        <% if (typeof columns !== 'undefined' && typeof rows !== 'undefined' && columns && rows && rows.length) { %>
+            <div class="premium-table-wrap">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <% columns.forEach(column => { %>
+                                <th><%= column.label %></th>
+                            <% }) %>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% rows.forEach(row => { %>
+                            <tr>
+                                <% columns.forEach(column => { %>
+                                    <td>
+                                        <% if (column.type === 'status') { %>
+                                            <span class="status <%= row[column.keyClass || column.key] || 'neutral' %>">
+                                                <%= row[column.key] || '—' %>
+                                            </span>
+                                        <% } else { %>
+                                            <%= row[column.key] ?? '—' %>
+                                        <% } %>
+                                    </td>
+                                <% }) %>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="empty-state">
+                <div class="empty-state-icon">◆</div>
+                <strong>No records yet</strong>
+                <p>There is currently no data available in this section.</p>
+            </div>
+        <% } %>
+    </div>
+
+    <% const safeInfo = Array.isArray(info) ? info : []; %>
+    <% if (safeInfo.length) { %>
+        <div class="info-grid">
+            <% safeInfo.forEach(item => { %>
+                <div class="info-box">
+                    <h4><%= item.title %></h4>
+                    <p><%= item.text %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+
+</div>

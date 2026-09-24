@@ -1,3 +1,30 @@
+<% if (typeof provider !== 'undefined' && provider === 'matterport' && embedUrl) { %>
+<div class="container">
+    <div class="page-header">
+        <h1><%= property.title %></h1>
+        <p>3D Digital Twin</p>
+    </div>
+
+    <div style="position: relative; width: 100%; height: 78vh; min-height: 560px; background: #000; border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.25);">
+        <iframe
+            src="<%= embedUrl %>"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allow="fullscreen; xr-spatial-tracking; gyroscope; accelerometer"
+            allowfullscreen
+            style="border: 0; display: block;"
+            title="Matterport 3D Tour - <%= property.title %>"
+        ></iframe>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center; padding-bottom: 2rem;">
+        <a href="/properties/<%= property.id %>" class="btn btn-outline">
+            <i class="fas fa-arrow-left"></i> Back to Property
+        </a>
+    </div>
+</div>
+<% } else { %>
 <div class="container">
     <div class="page-header">
         <h1><%= property.title %></h1>
@@ -19,3 +46,5 @@
         </a>
     </div>
 </div>
+
+<% } %>

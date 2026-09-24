@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1200" viewBox="0 0 2400 1200">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#20252b"/>
+      <stop offset="100%" stop-color="#59616b"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a735e"/>
+      <stop offset="100%" stop-color="#3e3329"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="2400" height="750" fill="url(#sky)"/>
+  <rect y="750" width="2400" height="450" fill="url(#floor)"/>
+
+  <rect x="150" y="250" width="500" height="500" fill="#30363d" stroke="#aeb7c0" stroke-width="8"/>
+  <rect x="175" y="275" width="215" height="450" fill="#15191d"/>
+  <rect x="410" y="275" width="215" height="450" fill="#15191d"/>
+
+  <rect x="850" y="500" width="700" height="180" rx="40" fill="#343b42"/>
+  <rect x="930" y="400" width="180" height="180" rx="25" fill="#4d555e"/>
+  <rect x="1290" y="400" width="180" height="180" rx="25" fill="#4d555e"/>
+
+  <rect x="1000" y="680" width="500" height="35" fill="#20252a"/>
+
+  <circle cx="1800" cy="480" r="170" fill="#30373e"/>
+  <circle cx="1800" cy="480" r="110" fill="#171b1f"/>
+
+  <rect x="1950" y="250" width="280" height="500" fill="#292f35" stroke="#9da6af" stroke-width="8"/>
+
+  <text x="1200" y="120" text-anchor="middle"
+        fill="white" font-family="Arial" font-size="72" font-weight="bold">
+    INZU360 DEMO PANORAMA
+  </text>
+
+  <text x="1200" y="190" text-anchor="middle"
+        fill="#c7cdd3" font-family="Arial" font-size="34">
+    Replace this with your real 360° property panorama
+  </text>
+
+  <text x="1200" y="1100" text-anchor="middle"
+        fill="white" font-family="Arial" font-size="42" font-weight="bold">
+    LIVING ROOM
+  </text>
+</svg>

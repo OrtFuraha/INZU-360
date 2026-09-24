@@ -3,7 +3,7 @@
 
     <!-- Logo -->
     <a href="/" class="nav-logo">
-      <img src="/images/branding/inzu360-logo.png" alt="INZU360" class="nav-logo-image">
+      <span class="logo-mark">INZU</span><span class="logo-number">360</span>
     </a>
 
     <!-- Navigation -->
@@ -176,20 +176,12 @@
 .nav-container {
   max-width: 1400px;
   margin: 0 auto;
-  min-height: 96px;
+  min-height: 76px;
   padding: 0 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-}
-
-.nav-logo-image {
-  display: block;
-  width: auto;
-  height: 72px;
-  max-width: 320px;
-  object-fit: contain;
 }
 
 .nav-logo {

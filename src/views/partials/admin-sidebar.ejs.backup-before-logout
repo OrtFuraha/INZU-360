@@ -1,0 +1,133 @@
+<div style="width: 280px; background: #1F2937; color: white; min-height: 100vh; position: fixed; top: 0; left: 0; overflow-y: auto; padding: 1.5rem 0; z-index: 1000;">
+    <!-- Logo -->
+    <div style="padding: 0 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800;">
+            <span style="background: #B87333; color: white; padding: 0.2rem 0.5rem; border-radius: 8px; font-size: 1rem;">IN</span>
+            <span style="color: white;">INZU<span style="color: #B87333;">360</span></span>
+            <span style="font-size: 0.6rem; background: #B87333; padding: 0.1rem 0.5rem; border-radius: 12px; color: white;">ADMIN</span>
+        </div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav style="padding: 1rem 0;">
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            <!-- Dashboard -->
+            <li>
+                <a href="/admin" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; <%= currentUrl === '/admin' ? 'background: rgba(184, 115, 51, 0.2); color: #B87333; border-right: 3px solid #B87333;' : '' %>">
+                    <i class="fas fa-th-large" style="width: 20px;"></i> Dashboard
+                </a>
+            </li>
+            
+            <!-- Users -->
+            <li>
+                <a href="#" onclick="toggleSubmenu('usersMenu'); return false;" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; cursor: pointer;">
+                    <i class="fas fa-users" style="width: 20px;"></i> Users <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                </a>
+                <ul id="usersMenu" style="list-style: none; padding: 0; margin: 0; display: none; background: rgba(0,0,0,0.2);">
+                    <li><a href="/admin/users" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">All Users</a></li>
+                    <li><a href="/admin/users?role=buyer" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Buyers</a></li>
+                    <li><a href="/admin/users?role=owner" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Owners</a></li>
+                    <li><a href="/admin/users?role=staff" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Staff</a></li>
+                </ul>
+            </li>
+            
+            <!-- Properties -->
+            <li>
+                <a href="#" onclick="toggleSubmenu('propertiesMenu'); return false;" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; cursor: pointer;">
+                    <i class="fas fa-home" style="width: 20px;"></i> Properties <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                </a>
+                <ul id="propertiesMenu" style="list-style: none; padding: 0; margin: 0; display: none; background: rgba(0,0,0,0.2);">
+                    <li><a href="/admin/properties" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">All Properties</a></li>
+                    <li><a href="/admin/properties?status=pending" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Pending Approval</a></li>
+                    <li><a href="/admin/properties?status=approved" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Approved</a></li>
+                    <li><a href="/admin/properties?status=rejected" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Rejected</a></li>
+                    <li><a href="/admin/properties?featured=1" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Featured</a></li>
+                    <li><a href="/admin/properties?status=archived" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Archived</a></li>
+                </ul>
+            </li>
+            
+            <!-- 3D Digital Twins -->
+            <li>
+                <a href="#" onclick="toggleSubmenu('twinsMenu'); return false;" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; cursor: pointer;">
+                    <i class="fas fa-cube" style="width: 20px;"></i> 3D Digital Twins <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                </a>
+                <ul id="twinsMenu" style="list-style: none; padding: 0; margin: 0; display: none; background: rgba(0,0,0,0.2);">
+                    <li><a href="/admin/virtual-tours" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Virtual Tours</a></li>
+                    <li><a href="/admin/360-images" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">360 Images</a></li>
+                    <li><a href="/admin/3d-models" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">3D Models</a></li>
+                    <li><a href="/admin/floor-plans" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Floor Plans</a></li>
+                    <li><a href="/admin/processing-queue" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Processing Queue</a></li>
+                </ul>
+            </li>
+            
+            <!-- Marketplace -->
+            <li>
+                <a href="#" onclick="toggleSubmenu('marketplaceMenu'); return false;" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; cursor: pointer;">
+                    <i class="fas fa-store" style="width: 20px;"></i> Marketplace <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                </a>
+                <ul id="marketplaceMenu" style="list-style: none; padding: 0; margin: 0; display: none; background: rgba(0,0,0,0.2);">
+                    <li><a href="/admin/marketplace/buy" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Buy</a></li>
+                    <li><a href="/admin/marketplace/rent" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Rent</a></li>
+                    <li><a href="/admin/marketplace/commercial" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Commercial</a></li>
+                    <li><a href="/admin/marketplace/land" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Land</a></li>
+                </ul>
+            </li>
+            
+            <li>
+                <a href="#" onclick="toggleSubmenu('agentsMenu'); return false;" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; cursor: pointer;">
+                </a>
+                <ul id="agentsMenu" style="list-style: none; padding: 0; margin: 0; display: none; background: rgba(0,0,0,0.2);">
+                </ul>
+            </li>
+            
+            <!-- Locations -->
+            <li>
+                <a href="#" onclick="toggleSubmenu('locationsMenu'); return false;" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s; cursor: pointer;">
+                    <i class="fas fa-map-marker-alt" style="width: 20px;"></i> Locations <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                </a>
+                <ul id="locationsMenu" style="list-style: none; padding: 0; margin: 0; display: none; background: rgba(0,0,0,0.2);">
+                    <li><a href="/admin/locations/countries" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Countries</a></li>
+                    <li><a href="/admin/locations/provinces" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Provinces</a></li>
+                    <li><a href="/admin/locations/districts" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Districts</a></li>
+                    <li><a href="/admin/locations/cities" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Cities</a></li>
+                    <li><a href="/admin/locations/neighborhoods" style="display: block; padding: 0.5rem 1.5rem 0.5rem 3.5rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem;">Neighborhoods</a></li>
+                </ul>
+            </li>
+            
+            <!-- Other Menu Items -->
+            <li><a href="/admin/bookings" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-calendar-check" style="width: 20px;"></i> Bookings</a></li>
+            <li><a href="/admin/messages" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-envelope" style="width: 20px;"></i> Messages</a></li>
+            <li><a href="/admin/reviews" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-star" style="width: 20px;"></i> Reviews</a></li>
+            <li><a href="/admin/payments" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-credit-card" style="width: 20px;"></i> Payments</a></li>
+            <li><a href="/admin/subscriptions" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-crown" style="width: 20px;"></i> Subscriptions</a></li>
+            <li><a href="/admin/analytics" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-chart-bar" style="width: 20px;"></i> Analytics</a></li>
+            <li><a href="/admin/reports" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-file-alt" style="width: 20px;"></i> Reports</a></li>
+            <li><a href="/admin/ai" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-robot" style="width: 20px;"></i> AI Management</a></li>
+            <li><a href="/admin/media" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-photo-video" style="width: 20px;"></i> Media Library</a></li>
+            <li><a href="/admin/notifications" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-bell" style="width: 20px;"></i> Notifications</a></li>
+            <li><a href="/admin/marketing" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-bullhorn" style="width: 20px;"></i> Marketing</a></li>
+            <li><a href="/admin/support" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-headset" style="width: 20px;"></i> Support</a></li>
+            <li><a href="/admin/integrations" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-plug" style="width: 20px;"></i> Integrations</a></li>
+            <li><a href="/admin/api" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-code" style="width: 20px;"></i> API / Developer</a></li>
+            <li><a href="/admin/security" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-shield-alt" style="width: 20px;"></i> Security</a></li>
+            <li><a href="/admin/audit" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-history" style="width: 20px;"></i> Audit Logs</a></li>
+            <li><a href="/admin/settings" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;"><i class="fas fa-cog" style="width: 20px;"></i> Settings</a></li>
+        </ul>
+            <li style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+                <a href="/auth/logout" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: #ef4444; text-decoration: none; transition: all 0.3s;">
+                    <i class="fas fa-sign-out-alt" style="width: 20px;"></i> Logout
+                </a>
+            </li>
+    </nav>
+</div>
+
+<script>
+function toggleSubmenu(menuId) {
+    var menu = document.getElementById(menuId);
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+    } else {
+        menu.style.display = 'block';
+    }
+}
+</script>

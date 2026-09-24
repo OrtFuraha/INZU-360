@@ -1,0 +1,205 @@
+<div class="container">
+
+    <!-- Page Header -->
+    <div class="page-header" style="padding: 3rem 0 1rem; text-align: center;">
+        <h1 style="font-size: 3rem; color: var(--primary);">Developers</h1>
+        <p style="font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">Partner with INZU360 to showcase your developments and connect with investors across Africa</p>
+    </div>
+
+    <!-- Section 1: Hero/CTA -->
+    <section style="padding: 2rem 0 3rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: var(--primary); border-radius: var(--radius); padding: 3rem; color: white; align-items: center;">
+            <div>
+                <h2 style="color: white; font-size: 2.2rem; margin-bottom: 1rem;">Showcase Your Developments</h2>
+                <p style="color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 1.5rem;">
+                    Reach thousands of potential buyers, investors, and partners through Africa's premier real estate platform.
+                    List your projects, share 3D tours, and connect with qualified leads.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="/contact" class="btn btn-secondary">Partner With Us</a>
+                    <a href="#developers" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.3);">Meet Developers</a>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalDevelopers ? stats.totalDevelopers.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Active Developers</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalProperties ? stats.totalProperties.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Properties Listed</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalProjects ? stats.totalProjects.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Projects Completed</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalLand ? stats.totalLand.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Land Listings</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Featured Developer Projects -->
+    <section style="padding: 2rem 0;" id="developers">
+        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">Featured Developer Projects</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">Exceptional developments from Africa's leading real estate developers</p>
+        
+        <div class="property-grid">
+            <% if (featuredProjects && featuredProjects.length > 0) { %>
+                <% featuredProjects.forEach(project => { %>
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="<%= project.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= project.title %>">
+                            <div class="property-badges">
+                                <span class="badge badge-secondary"><%= project.transaction_type || 'For Sale' %></span>
+                                <% if (project.is_verified) { %>
+                                    <span class="badge badge-primary">Verified</span>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="property-info">
+                            <h3><a href="/properties/<%= project.id %>"><%= project.title %></a></h3>
+                            <div class="property-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span><%= project.address || project.city || 'Kigali, Rwanda' %></span>
+                            </div>
+                            <div class="property-features">
+                                <span><i class="fas fa-bed"></i> <%= project.bedrooms || 0 %> Beds</span>
+                                <span><i class="fas fa-bath"></i> <%= project.bathrooms || 0 %> Baths</span>
+                                <span><i class="fas fa-expand"></i> <%= project.area || 0 %> m²</span>
+                            </div>
+                            <div class="property-footer">
+                                <span class="property-price"><%= project.currency || 'RWF' %> <%= project.price ? project.price.toLocaleString() : '0' %></span>
+                                <span style="font-size: 0.8rem; color: var(--text-light);">By: <%= project.developer_name || 'INZU360' %></span>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-light);">No featured projects available. Check back soon!</p>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Section 3: Top Developers -->
+    <section style="padding: 2rem 0; background: var(--ivory); border-radius: var(--radius); margin: 2rem 0; padding: 2.5rem;">
+        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">Top Developers</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">Africa's most active and trusted real estate developers</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+            <% if (topDevelopers && topDevelopers.length > 0) { %>
+                <% topDevelopers.forEach(dev => { %>
+                    <div style="background: white; border-radius: var(--radius); padding: 1.5rem; border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--copper); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.2rem;">
+                                <%= dev.name ? dev.name.charAt(0).toUpperCase() : 'D' %>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem;"><%= dev.name || 'Developer' %></h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--text-light);"><i class="fas fa-envelope"></i> <%= dev.email || 'N/A' %></p>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; text-align: center; padding-top: 1rem; border-top: 1px solid rgba(31, 41, 55, 0.06);">
+                            <div>
+                                <div style="font-weight: 700; color: var(--primary);"><%= dev.project_count || 0 %></div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);">Projects</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: var(--primary);"><%= dev.total_views || 0 %></div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);">Views</div>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: var(--primary);"><%= dev.avg_price ? Math.round(dev.avg_price).toLocaleString() : 'N/A' %></div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);">Avg Price</div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-light);">No developers found. Be the first to list your projects!</p>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Section 4: Recent Developments -->
+    <section style="padding: 2rem 0;">
+        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">Recent Developments</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">New properties added by developers across Africa</p>
+        
+        <div class="property-grid">
+            <% if (recentDevelopments && recentDevelopments.length > 0) { %>
+                <% recentDevelopments.forEach(property => { %>
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="<%= property.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' %>" alt="<%= property.title %>">
+                            <div class="property-badges">
+                                <span class="badge badge-secondary"><%= property.transaction_type || 'For Sale' %></span>
+                            </div>
+                        </div>
+                        <div class="property-info">
+                            <h3><a href="/properties/<%= property.id %>"><%= property.title %></a></h3>
+                            <div class="property-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span><%= property.address || property.city || 'Kigali, Rwanda' %></span>
+                            </div>
+                            <div class="property-features">
+                                <span><i class="fas fa-bed"></i> <%= property.bedrooms || 0 %> Beds</span>
+                                <span><i class="fas fa-bath"></i> <%= property.bathrooms || 0 %> Baths</span>
+                                <span><i class="fas fa-expand"></i> <%= property.area || 0 %> m²</span>
+                            </div>
+                            <div class="property-footer">
+                                <span class="property-price"><%= property.currency || 'RWF' %> <%= property.price ? property.price.toLocaleString() : '0' %></span>
+                                <span style="font-size: 0.8rem; color: var(--text-light);">By: <%= property.developer_name || 'INZU360' %></span>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-light);">No recent developments available.</p>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Section 5: Developer Benefits -->
+    <section style="padding: 2rem 0; background: var(--ivory); border-radius: var(--radius); margin: 2rem 0; padding: 2.5rem;">
+        <h2 style="font-size: 2rem; color: var(--primary); text-align: center; margin-bottom: 0.5rem;">Why Partner With INZU360?</h2>
+        <p style="color: var(--text-light); text-align: center; margin-bottom: 2rem;">Benefits for developers and property owners</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-eye" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">Maximum Visibility</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Showcase your properties to thousands of potential buyers and investors across Africa.</p>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-vr-cardboard" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">3D Virtual Tours</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Create immersive 3D experiences that help buyers visualize your properties from anywhere.</p>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-users" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">Qualified Leads</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Connect with serious buyers and investors actively looking for properties.</p>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">Analytics & Insights</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Track views, engagement, and leads to optimize your property marketing strategy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: CTA -->
+    <section style="padding: 2rem 0 4rem; text-align: center;">
+        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;">Ready to Partner With Us?</h2>
+        <p style="color: var(--text-light); max-width: 600px; margin: 0 auto 2rem;">
+            Join INZU360 today and start showcasing your developments to a wider audience.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="/contact" class="btn btn-secondary btn-lg">Contact Our Team</a>
+            <a href="/properties" class="btn btn-outline btn-lg">View All Properties</a>
+        </div>
+    </section>
+</div>

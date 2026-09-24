@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="page-header">
+        <h1>Property Marketing</h1>
+        <p>Showcase your property to the world</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto;">
+        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-camera" style="font-size: 2.5rem; color: var(--copper);"></i>
+            <h3>Professional Photography</h3>
+            <p style="color: var(--text-light);">High-quality property photos</p>
+        </div>
+        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-drone" style="font-size: 2.5rem; color: var(--copper);"></i>
+            <h3>Drone Photography</h3>
+            <p style="color: var(--text-light);">Stunning aerial shots</p>
+        </div>
+        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-cube" style="font-size: 2.5rem; color: var(--copper);"></i>
+            <h3>3D Scanning</h3>
+            <p style="color: var(--text-light);">Detailed 3D property models</p>
+        </div>
+        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
+            <i class="fas fa-vr-cardboard" style="font-size: 2.5rem; color: var(--copper);"></i>
+            <h3>Virtual Tours</h3>
+            <p style="color: var(--text-light);">Immersive 360° experiences</p>
+        </div>
+    </div>
+</div>

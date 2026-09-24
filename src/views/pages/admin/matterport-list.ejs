@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>Matterport Tours</h1>
+            <p>Manage your 3D Digital Twins</p>
+        </div>
+        <a href="/admin/matterport/add" class="btn btn-secondary">+ Add Matterport Tour</a>
+    </div>
+
+    <div style="background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead style="background: var(--primary); color: white;">
+                <tr>
+                    <th style="padding: 0.8rem; text-align: left;">ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Property</th>
+                    <th style="padding: 0.8rem; text-align: left;">Provider</th>
+                    <th style="padding: 0.8rem; text-align: left;">Model ID</th>
+                    <th style="padding: 0.8rem; text-align: left;">Published</th>
+                    <th style="padding: 0.8rem; text-align: left;">Homepage</th>
+                    <th style="padding: 0.8rem; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (tours && tours.length > 0) { %>
+                    <% tours.forEach(t => { %>
+                        <tr style="border-bottom: 1px solid rgba(31, 41, 55, 0.06);">
+                            <td style="padding: 0.8rem;"><%= t.id %></td>
+                            <td style="padding: 0.8rem;"><%= t.property_title || '—' %></td>
+                            <td style="padding: 0.8rem;"><span style="background: rgba(184,115,51,0.12); color: var(--copper); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem;"><%= t.provider || 'legacy' %></span></td>
+                            <td style="padding: 0.8rem; font-family: monospace;"><%= t.matterport_model_id || '—' %></td>
+                            <td style="padding: 0.8rem;">
+                                <form action="/admin/matterport/<%= t.id %>/publish" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm" style="background: <%= t.is_published ? 'var(--emerald)' : '#6B7280' %>; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">
+                                        <%= t.is_published ? 'Published' : 'Draft' %>
+                                    </button>
+                                </form>
+                            </td>
+                            <td style="padding: 0.8rem;">
+                                <form action="/admin/matterport/<%= t.id %>/feature" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm" style="background: <%= t.featured_on_homepage ? 'var(--copper)' : '#6B7280' %>; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">
+                                        <%= t.featured_on_homepage ? 'Featured' : 'Not Featured' %>
+                                    </button>
+                                </form>
+                            </td>
+                            <td style="padding: 0.8rem;">
+                                <a href="/virtual-tour/<%= t.property_id %>" target="_blank" class="btn btn-sm btn-secondary">View</a>
+                                <a href="/admin/matterport/<%= t.id %>/edit" class="btn btn-sm" style="background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 4px; text-decoration: none;">Edit</a>
+                                <form action="/admin/matterport/<%= t.id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Delete this Matterport tour?');">
+                                    <button type="submit" class="btn btn-sm" style="background: #dc3545; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 4px; cursor: pointer;">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr><td colspan="7" style="padding: 2rem; text-align: center; color: var(--text-light);">No Matterport tours yet. <a href="/admin/matterport/add">Add the first one</a>.</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

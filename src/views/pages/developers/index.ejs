@@ -1,13 +1,84 @@
 <div class="container">
-    <div class="page-header">
-        <h1>Developers</h1>
-        <p>Partner with INZU360 to showcase your developments</p>
+
+    <!-- Page Header -->
+    <div class="page-header" style="padding: 3rem 0 1rem; text-align: center;">
+        <h1 style="font-size: 3rem; color: var(--primary);">Developers</h1>
+        <p style="font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">Partner with INZU360 to showcase your developments and connect with investors across Africa</p>
     </div>
-    
-    <div style="max-width: 700px; margin: 0 auto; text-align: center; padding: 3rem 2rem; background: var(--ivory); border-radius: var(--radius);">
-        <i class="fas fa-code" style="font-size: 3rem; color: var(--copper);"></i>
-        <h2>Build with INZU360</h2>
-        <p style="color: var(--text-light); margin: 1rem 0;">Access our API and platform to build the next generation of real estate applications.</p>
-        <a href="/contact" class="btn btn-secondary">Contact Our Team</a>
-    </div>
+
+    <!-- Section 1: Hero/CTA -->
+    <section style="padding: 2rem 0 3rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: var(--primary); border-radius: var(--radius); padding: 3rem; color: white; align-items: center;">
+            <div>
+                <h2 style="color: white; font-size: 2.2rem; margin-bottom: 1rem;">Showcase Your Developments</h2>
+                <p style="color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 1.5rem;">
+                    Reach thousands of potential buyers, investors, and partners through Africa's premier real estate platform.
+                    List your projects, share 3D tours, and connect with qualified leads.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="/contact" class="btn btn-secondary">Partner With Us</a>
+                    <a href="#developers" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.3);">Meet Developers</a>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalDevelopers ? stats.totalDevelopers.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Active Developers</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalProperties ? stats.totalProperties.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Properties Listed</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalProjects ? stats.totalProjects.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Projects Completed</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); border-radius: var(--radius); padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2.5rem; font-weight: 700; color: var(--copper);"><%= stats.totalLand ? stats.totalLand.count : 0 %></div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Land Listings</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Developer Benefits -->
+    <section style="padding: 2rem 0; background: var(--ivory); border-radius: var(--radius); margin: 2rem 0; padding: 2.5rem;">
+        <h2 style="font-size: 2rem; color: var(--primary); text-align: center; margin-bottom: 0.5rem;">Why Partner With INZU360?</h2>
+        <p style="color: var(--text-light); text-align: center; margin-bottom: 2rem;">Benefits for developers and property owners</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-eye" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">Maximum Visibility</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Showcase your properties to thousands of potential buyers and investors across Africa.</p>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-vr-cardboard" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">3D Virtual Tours</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Create immersive 3D experiences that help buyers visualize your properties from anywhere.</p>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-users" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">Qualified Leads</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Connect with serious buyers and investors actively looking for properties.</p>
+            </div>
+            <div style="background: white; padding: 1.5rem; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--copper); margin-bottom: 1rem;"></i>
+                <h4 style="margin-bottom: 0.5rem;">Analytics & Insights</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">Track views, engagement, and leads to optimize your property marketing strategy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: CTA -->
+    <section style="padding: 2rem 0 4rem; text-align: center;">
+        <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;">Ready to Partner With Us?</h2>
+        <p style="color: var(--text-light); max-width: 600px; margin: 0 auto 2rem;">
+            Join INZU360 today and start showcasing your developments to a wider audience.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="/contact" class="btn btn-secondary btn-lg">Contact Our Team</a>
+            <a href="/properties" class="btn btn-outline btn-lg">View All Properties</a>
+        </div>
+    </section>
 </div>

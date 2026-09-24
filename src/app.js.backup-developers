@@ -66,12 +66,9 @@ app.use('/dashboard', require('./routes/dashboard'));
 app.use('/search', require('./routes/search'));
 app.use('/virtual-tour', require('./routes/virtualTour'));
 app.use('/design-construction', require('./routes/designConstruction'));
-app.use('/solutions/design-construction', require('./routes/designConstruction'));
 app.use('/facility-management', require('./routes/facilityManagement'));
 app.use('/property-marketing', require('./routes/propertyMarketing'));
-app.use('/solutions/property-marketing', require('./routes/propertyMarketing'));
 app.use('/developers', require('./routes/developers'));
-app.use('/solutions/developers', require('./routes/developers'));
 app.use('/admin', require('./routes/admin'));
 app.use('/3d', require('./routes/3d'));
 

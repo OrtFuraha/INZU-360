@@ -1,0 +1,200 @@
+const express = require('express');
+const router = express.Router();
+const { getDB } = require('../config/database');
+const path = require('path');
+const fs = require('fs');
+
+// Get 3D tour player
+router.get('/tour/:tourId', (req, res) => {
+    const db = getDB();
+    const tourId = req.params.tourId;
+    
+    try {
+        // Get tour data
+        const tour = db.prepare(`
+            SELECT vt.*, p.title as property_title, p.id as property_id
+            FROM virtual_tours vt
+            JOIN properties p ON vt.property_id = p.id
+            WHERE vt.id = ?
+        `).get(tourId);
+        
+        if (!tour) {
+            return res.status(404).render('pages/404', { title: 'Tour Not Found' });
+        }
+        
+        // Get scenes for this tour
+        const scenes = db.prepare(`
+            SELECT * FROM tour_scenes 
+            WHERE tour_id = ? 
+            ORDER BY order_index ASC
+        `).all(tourId);
+        
+        // Get hotspots for each scene
+        scenes.forEach(scene => {
+            scene.hotspots = db.prepare(`
+                SELECT * FROM tour_hotspots 
+                WHERE scene_id = ? 
+                ORDER BY id ASC
+            `).all(scene.id);
+        });
+        
+        // Get floor plans
+        const floorPlans = db.prepare(`
+            SELECT * FROM tour_floor_plans 
+            WHERE tour_id = ? 
+            ORDER BY floor_number ASC
+        `).all(tourId);
+        
+        // Get reconstruction job if any
+        const job = db.prepare(`
+            SELECT * FROM reconstruction_jobs 
+            WHERE tour_id = ? 
+            ORDER BY id DESC LIMIT 1
+        `).get(tourId);
+        
+        // Determine if GLB exists
+        const glbExists = tour.glb_path && fs.existsSync(path.join(__dirname, '../../storage/tours', tour.glb_path));
+        
+        res.render('pages/virtual-tour/player3d', {
+            title: `${tour.property_title} - 3D Tour`,
+            tour: tour,
+            scenes: scenes,
+            floorPlans: floorPlans,
+            job: job,
+            glbExists: glbExists,
+            propertyId: tour.property_id,
+            propertyTitle: tour.property_title,
+            tourId: tour.id
+        });
+    } catch (err) {
+        console.error('Error loading 3D tour:', err);
+        res.status(500).render('pages/500', { title: 'Server Error' });
+    }
+});
+
+// Get tour data for JavaScript
+router.get('/api/tour/:tourId/data', (req, res) => {
+    const db = getDB();
+    const tourId = req.params.tourId;
+    
+    try {
+        const tour = db.prepare(`
+            SELECT vt.*, p.title as property_title
+            FROM virtual_tours vt
+            JOIN properties p ON vt.property_id = p.id
+            WHERE vt.id = ?
+        `).get(tourId);
+        
+        if (!tour) {
+            return res.status(404).json({ error: 'Tour not found' });
+        }
+        
+        const scenes = db.prepare(`
+            SELECT * FROM tour_scenes 
+            WHERE tour_id = ? 
+            ORDER BY order_index ASC
+        `).all(tourId);
+        
+        scenes.forEach(scene => {
+            // Get hotspots with proper target scene data
+            scene.hotspots = db.prepare(`
+                SELECT h.*, ts.name as target_scene_name
+                FROM tour_hotspots h
+                LEFT JOIN tour_scenes ts ON h.target_scene_id = ts.id
+                WHERE h.scene_id = ? 
+                ORDER BY h.id ASC
+            `).all(scene.id);
+        });
+        
+        const floorPlans = db.prepare(`
+            SELECT * FROM tour_floor_plans 
+            WHERE tour_id = ? 
+            ORDER BY floor_number ASC
+        `).all(tourId);
+        
+        // Build full URLs for panorama images
+        scenes.forEach(scene => {
+            if (scene.panorama_url) {
+                // Check if it's a relative path
+                if (!scene.panorama_url.startsWith('http')) {
+                    scene.panorama_url = '/storage/tours/panoramas/' + scene.panorama_url;
+                }
+            }
+        });
+        
+        res.json({
+            tour: tour,
+            scenes: scenes,
+            floorPlans: floorPlans,
+            propertyTitle: tour.property_title,
+            glbPath: tour.glb_path ? '/storage/tours/' + tour.glb_path : null
+        });
+    } catch (err) {
+        console.error('Error fetching tour data:', err);
+        res.status(500).json({ error: 'Failed to load tour data' });
+    }
+});
+
+// Track tour view
+router.post('/api/tour/:tourId/view', (req, res) => {
+    const db = getDB();
+    const tourId = req.params.tourId;
+    const { sessionId } = req.body;
+    const userId = req.session.user ? req.session.user.id : null;
+    
+    try {
+        db.prepare("UPDATE virtual_tours SET views = views + 1 WHERE id = ?").run(tourId);
+        
+        db.prepare(`
+            INSERT INTO tour_views (tour_id, user_id, session_id)
+            VALUES (?, ?, ?)
+        `).run(tourId, userId, sessionId || null);
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error tracking tour view:', err);
+        res.status(500).json({ error: 'Failed to track view' });
+    }
+});
+
+// Track scene view
+router.post('/api/tour/scene/:sceneId/view', (req, res) => {
+    const db = getDB();
+    const sceneId = req.params.sceneId;
+    const { tourViewId, duration } = req.body;
+    
+    try {
+        db.prepare(`
+            INSERT INTO tour_scene_views (scene_id, tour_view_id, duration)
+            VALUES (?, ?, ?)
+        `).run(sceneId, tourViewId || null, duration || 0);
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error tracking scene view:', err);
+        res.status(500).json({ error: 'Failed to track scene view' });
+    }
+});
+
+// Track hotspot click
+router.post('/api/tour/hotspot/:hotspotId/click', (req, res) => {
+    const db = getDB();
+    const hotspotId = req.params.hotspotId;
+    const { sceneId } = req.body;
+    
+    try {
+        // Log hotspot click
+        db.prepare(`
+            INSERT INTO tour_hotspot_clicks (hotspot_id, scene_id)
+            VALUES (?, ?)
+        `).run(hotspotId, sceneId);
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error tracking hotspot click:', err);
+        // Don't fail if table doesn't exist
+        res.json({ success: true });
+    }
+});
+
+module.exports = router;

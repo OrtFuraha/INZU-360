@@ -1,0 +1,288 @@
+.inzu360-tour {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 80px);
+    min-height: 600px;
+    overflow: hidden;
+    background: #0b0d0f;
+    color: #fff;
+}
+
+.tour-viewer {
+    position: absolute;
+    inset: 0;
+    cursor: grab;
+    touch-action: none;
+}
+
+.tour-viewer:active {
+    cursor: grabbing;
+}
+
+.tour-viewer canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tour-topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 24px;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0)
+    );
+
+    pointer-events: none;
+}
+
+.tour-topbar > div,
+.tour-actions {
+    pointer-events: auto;
+}
+
+.scene-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.scene-description {
+    margin-top: 5px;
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+.tour-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.tour-actions button {
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+
+    background: rgba(0,0,0,0.55);
+    color: white;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    backdrop-filter: blur(10px);
+}
+
+.tour-actions button:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.tour-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    background: rgba(5, 7, 9, 0.85);
+
+    font-size: 14px;
+}
+
+.tour-loading.hidden {
+    display: none;
+}
+
+.tour-spinner {
+    width: 38px;
+    height: 38px;
+
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: white;
+
+    border-radius: 50%;
+
+    animation: inzu360-spin 0.8s linear infinite;
+}
+
+@keyframes inzu360-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.hotspot-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 15;
+
+    pointer-events: none;
+}
+
+.tour-hotspot {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    transform: translate(-50%, -50%);
+
+    padding: 7px 12px 7px 7px;
+
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 30px;
+
+    background: rgba(10,10,10,0.75);
+    color: white;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+
+    backdrop-filter: blur(10px);
+
+    white-space: nowrap;
+}
+
+.hotspot-icon {
+    width: 26px;
+    height: 26px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: white;
+    color: black;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.hotspot-label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tour-hotspot:hover {
+    background: rgba(255,255,255,0.18);
+}
+
+.scene-thumbnails {
+    position: absolute;
+
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 30;
+
+    display: flex;
+    gap: 10px;
+
+    overflow-x: auto;
+
+    padding: 8px;
+
+    scrollbar-width: thin;
+}
+
+.scene-thumbnail {
+    flex: 0 0 120px;
+
+    padding: 0;
+
+    border: 2px solid transparent;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: rgba(0,0,0,0.65);
+    color: white;
+
+    cursor: pointer;
+}
+
+.scene-thumbnail.active {
+    border-color: white;
+}
+
+.scene-thumbnail img {
+    display: block;
+
+    width: 120px;
+    height: 70px;
+
+    object-fit: cover;
+}
+
+.scene-thumbnail span {
+    display: block;
+
+    padding: 7px;
+
+    font-size: 11px;
+    text-align: center;
+}
+
+.tour-error {
+    max-width: 500px;
+    padding: 20px;
+
+    text-align: center;
+
+    color: #fff;
+}
+
+@media (max-width: 700px) {
+    .inzu360-tour {
+        height: calc(100vh - 60px);
+        min-height: 500px;
+    }
+
+    .tour-topbar {
+        padding: 15px;
+    }
+
+    .scene-title {
+        font-size: 18px;
+    }
+
+    .scene-description {
+        font-size: 11px;
+    }
+
+    .scene-thumbnail {
+        flex-basis: 95px;
+    }
+
+    .scene-thumbnail img {
+        width: 95px;
+        height: 58px;
+    }
+
+    .scene-thumbnails {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+    }
+}

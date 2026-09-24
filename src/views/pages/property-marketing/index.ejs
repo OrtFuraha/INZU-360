@@ -1,29 +1,684 @@
-<div class="container">
-    <div class="page-header">
-        <h1>Property Marketing</h1>
-        <p>Showcase your property to the world</p>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto;">
-        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
-            <i class="fas fa-camera" style="font-size: 2.5rem; color: var(--copper);"></i>
-            <h3>Professional Photography</h3>
-            <p style="color: var(--text-light);">High-quality property photos</p>
+<style>
+.pm-page {
+    margin: -2rem 0 -3rem;
+}
+
+/* Hero Section - Direct background image, no overlay */
+.pm-hero {
+    position: relative;
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    background-image: url('/images/property-marketing-hero.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #1a1a2e;
+    padding: 0;
+}
+
+.pm-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    padding: 7rem 2rem;
+    color: #fff;
+}
+
+.pm-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    color: #C9A227;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.pm-eyebrow::before {
+    content: "";
+    width: 36px;
+    height: 2px;
+    background: #C9A227;
+}
+
+.pm-hero h1 {
+    margin: 0 0 1.5rem;
+    max-width: 760px;
+    color: #fff;
+    font-size: clamp(3.2rem, 6vw, 6rem);
+    line-height: .96;
+    letter-spacing: -.045em;
+    text-shadow: 0 2px 25px rgba(0,0,0,0.8), 0 4px 50px rgba(0,0,0,0.5);
+}
+
+.pm-hero p {
+    max-width: 650px;
+    margin: 0 0 2rem;
+    color: #fff;
+    font-size: 1.12rem;
+    line-height: 1.75;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 1px 10px rgba(0,0,0,0.6);
+}
+
+.pm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pm-actions .btn {
+    min-width: 165px;
+}
+
+.pm-intro {
+    max-width: 1180px;
+    margin: auto;
+    padding: 7rem 2rem 5rem;
+}
+
+.pm-intro-grid {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 5rem;
+    align-items: end;
+}
+
+.pm-label {
+    margin-bottom: 1rem;
+    color: var(--copper);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.pm-intro h2,
+.pm-heading h2 {
+    margin: 0;
+    color: var(--primary);
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+}
+
+.pm-copy {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.pm-services {
+    padding: 7rem 2rem;
+    background: var(--ivory);
+}
+
+.pm-inner {
+    max-width: 1180px;
+    margin: auto;
+}
+
+.pm-heading {
+    max-width: 800px;
+    margin-bottom: 3rem;
+}
+
+.pm-heading p {
+    max-width: 680px;
+    margin-top: 1.25rem;
+    color: var(--text-light);
+    line-height: 1.75;
+}
+
+.pm-service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.pm-card {
+    min-height: 260px;
+    padding: 2rem;
+    background: #fff;
+    border: 1px solid rgba(31,41,55,.06);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.pm-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(31,41,55,.11);
+}
+
+.pm-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 1.5rem;
+    border-radius: 14px;
+    background: rgba(184,115,51,.10);
+    color: var(--copper);
+    font-size: 1.35rem;
+}
+
+.pm-card h3 {
+    margin-bottom: .75rem;
+    color: var(--primary);
+}
+
+.pm-card p {
+    margin: 0;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.pm-process {
+    max-width: 1180px;
+    margin: auto;
+    padding: 7rem 2rem;
+}
+
+.pm-process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-top: 3rem;
+    border-top: 1px solid rgba(31,41,55,.12);
+}
+
+.pm-step {
+    padding: 2rem 1.25rem 1rem 0;
+}
+
+.pm-number {
+    margin-bottom: 1rem;
+    color: var(--copper);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
+
+.pm-step h3 {
+    margin-bottom: .65rem;
+    color: var(--primary);
+}
+
+.pm-step p {
+    color: var(--text-light);
+    font-size: .92rem;
+    line-height: 1.65;
+}
+
+.pm-dark {
+    padding: 7rem 2rem;
+    background: #17191d;
+    color: #fff;
+}
+
+.pm-dark .pm-heading h2 {
+    color: #fff;
+}
+
+.pm-dark .pm-heading p {
+    color: rgba(255,255,255,.68);
+}
+
+.pm-assets {
+    display: grid;
+    grid-template-columns: 1.4fr .8fr .8fr;
+    grid-template-rows: 220px 220px;
+    gap: 1rem;
+}
+
+.pm-asset {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    background: linear-gradient(145deg,#292d33,#101215);
+}
+
+.pm-asset:first-child {
+    grid-row: span 2;
+}
+
+.pm-asset i {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--copper);
+    font-size: 2rem;
+}
+
+.pm-asset h3 {
+    margin: 0;
+    color: #fff;
+}
+
+.pm-asset p {
+    margin: .4rem 0 0;
+    color: rgba(255,255,255,.62);
+    font-size: .88rem;
+}
+
+.pm-goals {
+    max-width: 1180px;
+    margin: auto;
+    padding: 7rem 2rem;
+}
+
+.pm-goal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.pm-goal {
+    padding: 2rem;
+    border: 1px solid rgba(31,41,55,.10);
+    border-radius: var(--radius);
+    background: #fff;
+}
+
+.pm-goal i {
+    display: block;
+    margin-bottom: 1.25rem;
+    color: var(--copper);
+    font-size: 1.5rem;
+}
+
+.pm-goal h3 {
+    margin-bottom: .65rem;
+    color: var(--primary);
+}
+
+.pm-goal p {
+    margin: 0;
+    color: var(--text-light);
+    line-height: 1.65;
+    font-size: .92rem;
+}
+
+.pm-final {
+    padding: 7rem 2rem;
+    background: var(--ivory);
+    text-align: center;
+}
+
+.pm-final-inner {
+    max-width: 760px;
+    margin: auto;
+}
+
+.pm-final h2 {
+    margin-bottom: 1.25rem;
+    color: var(--primary);
+    font-size: clamp(2.4rem,5vw,4.4rem);
+    line-height: 1;
+}
+
+.pm-final p {
+    max-width: 620px;
+    margin: 0 auto 2rem;
+    color: var(--text-light);
+    line-height: 1.75;
+}
+
+@media (max-width: 900px) {
+    .pm-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .pm-service-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .pm-process-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .pm-goal-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .pm-assets {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3,200px);
+    }
+
+    .pm-asset:first-child {
+        grid-row: span 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .pm-hero {
+        min-height: 590px;
+        background-position: center center;
+    }
+
+    .pm-hero-content {
+        padding: 5rem 1.25rem;
+    }
+
+    .pm-hero h1 {
+        font-size: 3rem;
+    }
+
+    .pm-service-grid,
+    .pm-process-grid,
+    .pm-goal-grid,
+    .pm-assets {
+        grid-template-columns: 1fr;
+    }
+
+    .pm-assets {
+        grid-template-rows: repeat(5,180px);
+    }
+
+    .pm-intro,
+    .pm-process,
+    .pm-goals,
+    .pm-services,
+    .pm-dark,
+    .pm-final {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+</style>
+
+<div class="pm-page">
+
+    <section class="pm-hero">
+        <div class="container">
+            <div class="pm-hero-content">
+                <div class="pm-eyebrow">Property Marketing</div>
+
+                <h1>Make every property impossible to ignore.</h1>
+
+                <p>
+                    Transform properties into compelling digital experiences with
+                    professional photography, aerial content, 360° virtual tours,
+                    video and polished property marketing assets.
+                </p>
+
+                <div class="pm-actions">
+                    <a href="/properties" class="btn btn-primary">
+                        Explore Properties
+                    </a>
+
+                    <a href="/contact" class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.6);">
+                        Start a Project
+                    </a>
+                </div>
+            </div>
         </div>
-        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
-            <i class="fas fa-drone" style="font-size: 2.5rem; color: var(--copper);"></i>
-            <h3>Drone Photography</h3>
-            <p style="color: var(--text-light);">Stunning aerial shots</p>
+    </section>
+
+    <section class="pm-intro">
+        <div class="pm-intro-grid">
+            <div>
+                <div class="pm-label">More than a listing</div>
+                <h2>
+                    Give people a reason to explore the property before they ever visit.
+                </h2>
+            </div>
+
+            <div class="pm-copy">
+                <p>
+                    Property marketing should communicate space, atmosphere and
+                    potential clearly. INZU360 brings the visual pieces together
+                    into a stronger digital presentation designed to help people
+                    understand a property faster.
+                </p>
+            </div>
         </div>
-        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
-            <i class="fas fa-cube" style="font-size: 2.5rem; color: var(--copper);"></i>
-            <h3>3D Scanning</h3>
-            <p style="color: var(--text-light);">Detailed 3D property models</p>
+    </section>
+
+    <section class="pm-services">
+        <div class="pm-inner">
+            <div class="pm-heading">
+                <div class="pm-label">Our capabilities</div>
+                <h2>Everything needed to present a property professionally.</h2>
+                <p>
+                    Build a complete property marketing experience instead of relying
+                    on a single photograph or basic listing.
+                </p>
+            </div>
+
+            <div class="pm-service-grid">
+
+                <div class="pm-card">
+                    <div class="pm-icon"><i class="fas fa-camera"></i></div>
+                    <h3>Professional Photography</h3>
+                    <p>
+                        High-quality property imagery that presents rooms,
+                        architecture, finishes and details with clarity.
+                    </p>
+                </div>
+
+                <div class="pm-card">
+                    <div class="pm-icon"><i class="fas fa-vr-cardboard"></i></div>
+                    <h3>360° Virtual Tours</h3>
+                    <p>
+                        Let prospective buyers or tenants explore a property
+                        interactively from wherever they are.
+                    </p>
+                </div>
+
+                <div class="pm-card">
+                    <div class="pm-icon"><i class="fas fa-drone"></i></div>
+                    <h3>Drone & Aerial Content</h3>
+                    <p>
+                        Show the property from a wider perspective and communicate
+                        its surroundings, scale and setting.
+                    </p>
+                </div>
+
+                <div class="pm-card">
+                    <div class="pm-icon"><i class="fas fa-video"></i></div>
+                    <h3>Property Video</h3>
+                    <p>
+                        Create visual stories that communicate the character and
+                        experience of a property.
+                    </p>
+                </div>
+
+                <div class="pm-card">
+                    <div class="pm-icon"><i class="fas fa-globe"></i></div>
+                    <h3>Digital Property Pages</h3>
+                    <p>
+                        Bring photography, information, location and immersive
+                        experiences together in one clear presentation.
+                    </p>
+                </div>
+
+                <div class="pm-card">
+                    <div class="pm-icon"><i class="fas fa-share-nodes"></i></div>
+                    <h3>Marketing Assets</h3>
+                    <p>
+                        Prepare visual content that can be adapted for websites,
+                        social media, campaigns and property presentations.
+                    </p>
+                </div>
+
+            </div>
         </div>
-        <div style="background: white; padding: 2rem; text-align: center; border-radius: var(--radius); border: 1px solid rgba(31, 41, 55, 0.04); box-shadow: var(--shadow);">
-            <i class="fas fa-vr-cardboard" style="font-size: 2.5rem; color: var(--copper);"></i>
-            <h3>Virtual Tours</h3>
-            <p style="color: var(--text-light);">Immersive 360° experiences</p>
+    </section>
+
+    <section class="pm-process">
+        <div class="pm-heading">
+            <div class="pm-label">The process</div>
+            <h2>From property to polished digital experience.</h2>
         </div>
-    </div>
+
+        <div class="pm-process-grid">
+
+            <div class="pm-step">
+                <div class="pm-number">01</div>
+                <h3>Prepare</h3>
+                <p>Define the property's story, audience and marketing priorities.</p>
+            </div>
+
+            <div class="pm-step">
+                <div class="pm-number">02</div>
+                <h3>Capture</h3>
+                <p>Create photography, video, aerial and immersive content.</p>
+            </div>
+
+            <div class="pm-step">
+                <div class="pm-number">03</div>
+                <h3>Build</h3>
+                <p>Organize the visual material into a clear digital presentation.</p>
+            </div>
+
+            <div class="pm-step">
+                <div class="pm-number">04</div>
+                <h3>Publish</h3>
+                <p>Present the property through an accessible online experience.</p>
+            </div>
+
+            <div class="pm-step">
+                <div class="pm-number">05</div>
+                <h3>Promote</h3>
+                <p>Use the finished assets across relevant marketing channels.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="pm-dark">
+        <div class="pm-inner">
+
+            <div class="pm-heading">
+                <div class="pm-label">One property. Many possibilities.</div>
+                <h2>Turn one property into a complete marketing toolkit.</h2>
+                <p>
+                    A strong property shoot can become multiple useful digital
+                    experiences and marketing assets.
+                </p>
+            </div>
+
+            <div class="pm-assets">
+
+                <div class="pm-asset">
+                    <i class="fas fa-vr-cardboard"></i>
+                    <div>
+                        <h3>Immersive 360° Experience</h3>
+                        <p>Let visitors move through the property digitally.</p>
+                    </div>
+                </div>
+
+                <div class="pm-asset">
+                    <i class="fas fa-image"></i>
+                    <div>
+                        <h3>Property Photography</h3>
+                        <p>Clean visuals for listings and campaigns.</p>
+                    </div>
+                </div>
+
+                <div class="pm-asset">
+                    <i class="fas fa-video"></i>
+                    <div>
+                        <h3>Video Content</h3>
+                        <p>Visual storytelling for digital promotion.</p>
+                    </div>
+                </div>
+
+                <div class="pm-asset">
+                    <i class="fas fa-location-dot"></i>
+                    <div>
+                        <h3>Location Context</h3>
+                        <p>Help audiences understand the surrounding area.</p>
+                    </div>
+                </div>
+
+                <div class="pm-asset">
+                    <i class="fas fa-mobile-screen-button"></i>
+                    <div>
+                        <h3>Social Content</h3>
+                        <p>Adapt visuals for modern digital channels.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="pm-goals">
+        <div class="pm-heading">
+            <div class="pm-label">Built for property goals</div>
+            <h2>Different properties. Different reasons to market.</h2>
+        </div>
+
+        <div class="pm-goal-grid">
+
+            <div class="pm-goal">
+                <i class="fas fa-tag"></i>
+                <h3>Sell</h3>
+                <p>
+                    Present the property clearly and make its strongest features
+                    easy to discover.
+                </p>
+            </div>
+
+            <div class="pm-goal">
+                <i class="fas fa-key"></i>
+                <h3>Rent</h3>
+                <p>
+                    Give prospective tenants a better understanding of the space
+                    before arranging a visit.
+                </p>
+            </div>
+
+            <div class="pm-goal">
+                <i class="fas fa-rocket"></i>
+                <h3>Launch</h3>
+                <p>
+                    Create a strong visual foundation for a new development or
+                    property release.
+                </p>
+            </div>
+
+            <div class="pm-goal">
+                <i class="fas fa-building"></i>
+                <h3>Showcase</h3>
+                <p>
+                    Build an impressive digital presentation for premium spaces,
+                    developments and portfolios.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="pm-final">
+        <div class="pm-final-inner">
+            <div class="pm-label">Ready to showcase it?</div>
+
+            <h2>Let the property speak for itself.</h2>
+
+            <p>
+                Create a professional digital experience that helps people discover,
+                understand and explore your property.
+            </p>
+
+            <div class="pm-actions" style="justify-content:center;">
+                <a href="/properties" class="btn btn-primary">
+                    Explore INZU360
+                </a>
+            </div>
+        </div>
+    </section>
+
 </div>

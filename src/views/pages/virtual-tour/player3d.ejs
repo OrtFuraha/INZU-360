@@ -1,0 +1,85 @@
+<div
+    id="tour-container"
+    class="inzu360-tour"
+>
+    <div
+        id="tour-viewer"
+        class="tour-viewer"
+        data-tour-id="<%= tourId %>"
+    ></div>
+
+    <div
+        id="tour-loading"
+        class="tour-loading"
+    >
+        <div class="tour-spinner"></div>
+        <div>Loading 360° tour...</div>
+    </div>
+
+    <div class="tour-topbar">
+        <div>
+            <div id="scene-title" class="scene-title">
+                <%= propertyTitle %>
+            </div>
+
+            <div
+                id="scene-description"
+                class="scene-description"
+            >
+                Explore this property in 360°.
+            </div>
+        </div>
+
+        <div class="tour-actions">
+            <button
+                id="reset-view-btn"
+                type="button"
+                title="Reset view"
+            >
+                ↺
+            </button>
+
+            <button
+                id="fullscreen-btn"
+                type="button"
+                title="Fullscreen"
+            >
+                ⛶
+            </button>
+        </div>
+    </div>
+
+    <div
+        id="hotspot-layer"
+        class="hotspot-layer"
+    ></div>
+
+    <div
+        id="scene-thumbnails"
+        class="scene-thumbnails"
+    ></div>
+</div>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.185.1/build/three.module.js"
+    }
+}
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+
+    window.THREE = THREE;
+
+    const viewerScript = document.createElement('script');
+    viewerScript.src = '/js/three-viewer.js';
+    document.body.appendChild(viewerScript);
+
+    viewerScript.onload = function () {
+        if (window.INZU360Viewer) {
+            window.INZU360Viewer.init();
+        }
+    };
+</script>

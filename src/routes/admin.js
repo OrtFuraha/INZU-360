@@ -524,14 +524,6 @@ router.post('/agents/:id/verify', isAdmin, (req, res) => {
     res.redirect('/admin/agents');
 });
 
-// Additional placeholder routes
-const placeholderViews = ['payments', 'subscriptions', 'reports', 'ai', 'media', 'notifications', 'marketing', 'support', 'integrations', 'api', 'security', 'audit', 'settings'];
-placeholderViews.forEach(view => {
-    router.get(`/${view}`, isAdmin, (req, res) => {
-        res.render(`pages/admin/${view}`, { title: view.charAt(0).toUpperCase() + view.slice(1), user: req.session.user, layout: 'layouts/admin' });
-    });
-});
-
 // 3D Digital Twins sub-routes
 router.get('/360-images', isAdmin, (req, res) => {
     res.render('pages/admin/360-images', { title: '360 Images', user: req.session.user, layout: 'layouts/admin' });
@@ -582,6 +574,631 @@ router.get('/agents/performance', isAdmin, (req, res) => {
         ORDER BY property_count DESC
     `).all();
     res.render('pages/admin/agent-performance', { title: 'Agent Performance', user: req.session.user, agents, layout: 'layouts/admin' });
+});
+
+
+// Dedicated Settings page
+router.get('/settings', isAdmin, (req, res) => {
+    res.render('pages/admin/settings', {
+        user: req.session.user,
+        title: 'Settings',
+        activePage: 'settings'
+    });
+});
+
+
+
+// ============================================================
+// PREMIUM ADMIN SECTIONS
+// ============================================================
+
+// 3D Digital Twins
+router.get('/3d-twins', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const tours = db.prepare('SELECT * FROM virtual_tours ORDER BY id DESC').all();
+        const scenes = db.prepare('SELECT * FROM tour_scenes ORDER BY id DESC').all();
+        const hotspots = db.prepare('SELECT * FROM tour_hotspots ORDER BY id DESC').all();
+        const views = db.prepare('SELECT * FROM tour_views ORDER BY id DESC').all();
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: '3D Digital Twins',
+            activePage: '3d-twins',
+            subtitle: 'Manage immersive property tours and digital twin experiences.',
+            stats: [
+                { label: 'Virtual Tours', value: tours.length },
+                { label: 'Scenes', value: scenes.length },
+                { label: 'Hotspots', value: hotspots.length },
+                { label: 'Tour Views', value: views.length }
+            ],
+            columns: ['ID', 'Tour', 'Status', 'Created'],
+            rows: tours.map(t => [
+                t.id,
+                t.title || t.name || 'Virtual Tour',
+                t.status || 'Active',
+                t.created_at || '—'
+            ]),
+            info: 'Digital twin infrastructure is connected to the existing virtual tour database.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('3D Digital Twins error:', error);
+        res.status(500).send('Unable to load 3D Digital Twins: ' + error.message);
+    }
+});
+
+// Locations
+router.get('/locations', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const locations = db.prepare(`
+            SELECT
+                city,
+                district,
+                COUNT(*) AS properties,
+                SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active
+            FROM properties
+            GROUP BY city, district
+            ORDER BY properties DESC
+        `).all();
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Locations',
+            activePage: 'locations',
+            subtitle: 'Manage property coverage by city and district.',
+            stats: [
+                { label: 'Cities', value: new Set(locations.map(x => x.city).filter(Boolean)).size },
+                { label: 'Districts', value: new Set(locations.map(x => x.district).filter(Boolean)).size },
+                { label: 'Location Groups', value: locations.length }
+            ],
+            columns: ['City', 'District', 'Properties', 'Active'],
+            rows: locations.map(x => [
+                x.city || '—',
+                x.district || '—',
+                x.properties,
+                x.active || 0
+            ]),
+            info: 'Location data is generated directly from registered properties.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Locations error:', error);
+        res.status(500).send('Unable to load Locations: ' + error.message);
+    }
+});
+
+// Media Library
+router.get('/media', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const media = db.prepare(`
+            SELECT
+                pi.id,
+                pi.property_id,
+                pi.url,
+                pi.is_primary,
+                p.title
+            FROM property_images pi
+            LEFT JOIN properties p ON p.id = pi.property_id
+            ORDER BY pi.id DESC
+        `).all();
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Media Library',
+            activePage: 'media',
+            subtitle: 'Centralized property photography and media management.',
+            stats: [
+                { label: 'Total Media', value: media.length },
+                { label: 'Primary Images', value: media.filter(x => x.is_primary).length },
+                { label: 'Properties With Media', value: new Set(media.map(x => x.property_id)).size }
+            ],
+            columns: ['ID', 'Property', 'Media', 'Primary'],
+            rows: media.map(x => [
+                x.id,
+                x.title || ('Property #' + x.property_id),
+                x.url || '—',
+                x.is_primary ? 'Yes' : 'No'
+            ]),
+            info: 'Images are loaded from the existing property_images table.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Media Library error:', error);
+        res.status(500).send('Unable to load Media Library: ' + error.message);
+    }
+});
+
+// Payments
+router.get('/payments', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const bookings = db.prepare(`
+            SELECT
+                COUNT(*) AS total,
+                SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) AS confirmed,
+                SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending,
+                SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) AS cancelled
+            FROM bookings
+        `).get();
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Payments',
+            activePage: 'payments',
+            subtitle: 'Monitor booking-related payment activity and financial readiness.',
+            stats: [
+                { label: 'Bookings', value: bookings.total || 0 },
+                { label: 'Confirmed', value: bookings.confirmed || 0 },
+                { label: 'Pending', value: bookings.pending || 0 },
+                { label: 'Cancelled', value: bookings.cancelled || 0 }
+            ],
+            columns: ['Area', 'Status', 'Details'],
+            rows: [
+                ['Payment Provider', 'Not Connected', 'Connect a payment gateway before processing real transactions.'],
+                ['Booking Records', 'Connected', 'Booking data is available in the database.']
+            ],
+            info: 'No fake transactions are displayed. Real payment processing should only be enabled after a payment provider is connected.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Payments error:', error);
+        res.status(500).send('Unable to load Payments: ' + error.message);
+    }
+});
+
+// Subscriptions
+router.get('/subscriptions', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const subscribers = db.prepare('SELECT * FROM subscribers ORDER BY id DESC').all();
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Subscriptions',
+            activePage: 'subscriptions',
+            subtitle: 'Manage newsletter and subscriber relationships.',
+            stats: [
+                { label: 'Subscribers', value: subscribers.length },
+                { label: 'Active Records', value: subscribers.length }
+            ],
+            columns: ['ID', 'Email', 'Status', 'Created'],
+            rows: subscribers.map(x => [
+                x.id,
+                x.email || '—',
+                x.status || 'Subscribed',
+                x.created_at || '—'
+            ]),
+            info: 'Subscriber information comes directly from the existing subscribers table.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Subscriptions error:', error);
+        res.status(500).send('Unable to load Subscriptions: ' + error.message);
+    }
+});
+
+// Reports
+router.get('/reports', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const users = db.prepare('SELECT COUNT(*) AS count FROM users').get().count;
+        const properties = db.prepare('SELECT COUNT(*) AS count FROM properties').get().count;
+        const bookings = db.prepare('SELECT COUNT(*) AS count FROM bookings').get().count;
+        const messages = db.prepare('SELECT COUNT(*) AS count FROM messages').get().count;
+        const reviews = db.prepare('SELECT COUNT(*) AS count FROM testimonials').get().count;
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Reports',
+            activePage: 'reports',
+            subtitle: 'High-level operational reports generated from INZU360 data.',
+            stats: [
+                { label: 'Users', value: users },
+                { label: 'Properties', value: properties },
+                { label: 'Bookings', value: bookings },
+                { label: 'Messages', value: messages },
+                { label: 'Reviews', value: reviews }
+            ],
+            columns: ['Report', 'Value', 'Source'],
+            rows: [
+                ['Users', users, 'users'],
+                ['Properties', properties, 'properties'],
+                ['Bookings', bookings, 'bookings'],
+                ['Messages', messages, 'messages'],
+                ['Reviews', reviews, 'testimonials']
+            ],
+            info: 'Reports are based on live records in the INZU360 SQLite database.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Reports error:', error);
+        res.status(500).send('Unable to load Reports: ' + error.message);
+    }
+});
+
+// Notifications
+router.get('/notifications', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const users = db.prepare('SELECT COUNT(*) AS count FROM users').get().count;
+        const bookings = db.prepare('SELECT COUNT(*) AS count FROM bookings').get().count;
+        const messages = db.prepare('SELECT COUNT(*) AS count FROM messages').get().count;
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Notifications',
+            activePage: 'notifications',
+            subtitle: 'Monitor notification-ready events across the platform.',
+            stats: [
+                { label: 'Users', value: users },
+                { label: 'Bookings', value: bookings },
+                { label: 'Messages', value: messages }
+            ],
+            columns: ['Event', 'Records', 'Status'],
+            rows: [
+                ['New Users', users, 'Ready'],
+                ['Bookings', bookings, 'Ready'],
+                ['Messages', messages, 'Ready']
+            ],
+            info: 'Notification infrastructure can be connected to email, SMS, or push providers when required.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Notifications error:', error);
+        res.status(500).send('Unable to load Notifications: ' + error.message);
+    }
+});
+
+// Marketing
+router.get('/marketing', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const subscribers = db.prepare('SELECT COUNT(*) AS count FROM subscribers').get().count;
+        const properties = db.prepare('SELECT COUNT(*) AS count FROM properties').get().count;
+        const featured = db.prepare("SELECT COUNT(*) AS count FROM properties WHERE is_featured = 1").get().count;
+        const users = db.prepare('SELECT COUNT(*) AS count FROM users').get().count;
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Marketing',
+            activePage: 'marketing',
+            subtitle: 'Manage audience growth and property promotion metrics.',
+            stats: [
+                { label: 'Subscribers', value: subscribers },
+                { label: 'Properties', value: properties },
+                { label: 'Featured', value: featured },
+                { label: 'Users', value: users }
+            ],
+            columns: ['Marketing Area', 'Records', 'Status'],
+            rows: [
+                ['Subscribers', subscribers, 'Active'],
+                ['Property Inventory', properties, 'Active'],
+                ['Featured Properties', featured, 'Active'],
+                ['Registered Users', users, 'Active']
+            ],
+            info: 'Marketing metrics are connected to existing INZU360 users, properties and subscriber data.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Marketing error:', error);
+        res.status(500).send('Unable to load Marketing: ' + error.message);
+    }
+});
+
+// Support
+router.get('/support', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const messages = db.prepare('SELECT COUNT(*) AS count FROM messages').get().count;
+        const users = db.prepare('SELECT COUNT(*) AS count FROM users').get().count;
+        const bookings = db.prepare('SELECT COUNT(*) AS count FROM bookings').get().count;
+        const properties = db.prepare('SELECT COUNT(*) AS count FROM properties').get().count;
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Support',
+            activePage: 'support',
+            subtitle: 'Central support overview for users, bookings and property operations.',
+            stats: [
+                { label: 'Messages', value: messages },
+                { label: 'Users', value: users },
+                { label: 'Bookings', value: bookings },
+                { label: 'Properties', value: properties }
+            ],
+            columns: ['Support Area', 'Records', 'Status'],
+            rows: [
+                ['Customer Messages', messages, 'Monitor'],
+                ['Users', users, 'Available'],
+                ['Bookings', bookings, 'Available'],
+                ['Properties', properties, 'Available']
+            ],
+            info: 'Use the Messages and Bookings sections for detailed customer support workflows.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Support error:', error);
+        res.status(500).send('Unable to load Support: ' + error.message);
+    }
+});
+
+// Integrations
+router.get('/integrations', isAdmin, (req, res) => {
+    res.render('pages/admin/premium-section', {
+        user: req.session.user,
+        title: 'Integrations',
+        activePage: 'integrations',
+        subtitle: 'Monitor the systems connected to your INZU360 platform.',
+        stats: [
+            { label: 'Database', value: 'Connected' },
+            { label: 'Authentication', value: 'Connected' },
+            { label: 'Media', value: 'Connected' },
+            { label: '3D Tours', value: 'Connected' }
+        ],
+        columns: ['Integration', 'Status', 'Purpose'],
+        rows: [
+            ['SQLite Database', 'Connected', 'Core application data'],
+            ['Session Authentication', 'Connected', 'Admin and user authentication'],
+            ['Property Media', 'Connected', 'Property images'],
+            ['Virtual Tours', 'Connected', '3D digital experiences'],
+            ['Payment Gateway', 'Not Connected', 'Real payment processing'],
+            ['Email Provider', 'Not Connected', 'Transactional email']
+        ],
+        info: 'Only confirmed integrations are marked as connected. No unavailable services are represented as active.',
+        actions: []
+    });
+});
+
+// Security
+router.get('/security', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const total = db.prepare('SELECT COUNT(*) AS count FROM users').get().count;
+        const admins = db.prepare("SELECT COUNT(*) AS count FROM users WHERE role = 'admin'").get().count;
+        const verified = db.prepare('SELECT COUNT(*) AS count FROM users WHERE is_verified = 1').get().count;
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Security',
+            activePage: 'security',
+            subtitle: 'Review account access and platform security indicators.',
+            stats: [
+                { label: 'Users', value: total },
+                { label: 'Administrators', value: admins },
+                { label: 'Verified Users', value: verified }
+            ],
+            columns: ['Security Check', 'Value', 'Status'],
+            rows: [
+                ['Admin Accounts', admins, 'Review regularly'],
+                ['Verified Users', verified, 'Monitored'],
+                ['Authentication', 'Session Based', 'Active'],
+                ['Database', 'SQLite', 'Connected']
+            ],
+            info: 'Security controls should be extended with provider-specific protections before production payment or sensitive integrations are enabled.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Security error:', error);
+        res.status(500).send('Unable to load Security: ' + error.message);
+    }
+});
+
+// Audit Logs
+router.get('/audit', isAdmin, (req, res) => {
+    const db = getDB();
+    try {
+        const users = db.prepare(`
+            SELECT 'User Created' AS action, name AS subject, created_at
+            FROM users
+            ORDER BY created_at DESC
+            LIMIT 10
+        `).all();
+
+        const properties = db.prepare(`
+            SELECT 'Property Created' AS action, title AS subject, created_at
+            FROM properties
+            ORDER BY created_at DESC
+            LIMIT 10
+        `).all();
+
+        const activity = [...users, ...properties]
+            .sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')))
+            .slice(0, 20);
+
+        res.render('pages/admin/premium-section', {
+            user: req.session.user,
+            title: 'Audit Logs',
+            activePage: 'audit',
+            subtitle: 'Recent platform activity derived from recorded database events.',
+            stats: [
+                { label: 'Recent Events', value: activity.length },
+                { label: 'User Events', value: users.length },
+                { label: 'Property Events', value: properties.length }
+            ],
+            columns: ['Action', 'Subject', 'Date'],
+            rows: activity.map(x => [
+                x.action,
+                x.subject || '—',
+                x.created_at || '—'
+            ]),
+            info: 'This is a database-derived activity view. A dedicated immutable audit_events table can be added later for complete action-level auditing.',
+            actions: []
+        });
+    } catch (error) {
+        console.error('Audit error:', error);
+        res.status(500).send('Unable to load Audit Logs: ' + error.message);
+    }
+});
+
+
+/* ============================================================
+ * MATTERPORT INTEGRATION
+ * Canonical field: matterport_model_id
+ * ============================================================ */
+
+const { detectMatterport, buildEmbedUrl } = require('../utils/matterport');
+
+router.post('/matterport/detect', isAdmin, (req, res) => {
+    const { input } = req.body;
+    const result = detectMatterport(input);
+    if (!result.ok) return res.json({ ok: false, error: result.error });
+    res.json({
+        ok: true,
+        modelId: result.modelId,
+        canonicalUrl: result.canonicalUrl,
+        embedUrl: buildEmbedUrl(result.modelId)
+    });
+});
+
+router.get('/matterport', isAdmin, (req, res) => {
+    const db = getDB();
+    const tours = db.prepare(`
+        SELECT vt.*, p.title as property_title
+        FROM virtual_tours vt
+        LEFT JOIN properties p ON vt.property_id = p.id
+        ORDER BY vt.created_at DESC
+    `).all();
+    res.render('pages/admin/matterport-list', {
+        title: 'Matterport Tours',
+        user: req.session.user,
+        tours: tours,
+        layout: 'layouts/admin'
+    });
+});
+
+router.get('/matterport/add', isAdmin, (req, res) => {
+    const db = getDB();
+    const properties = db.prepare('SELECT id, title FROM properties ORDER BY title ASC').all();
+    res.render('pages/admin/matterport-add', {
+        title: 'Add Matterport Tour',
+        user: req.session.user,
+        properties: properties,
+        layout: 'layouts/admin'
+    });
+});
+
+router.post('/matterport/create', isAdmin, (req, res) => {
+    const db = getDB();
+    const { property_id, matterport_input, is_published, featured_on_homepage } = req.body;
+
+    if (!property_id) {
+        req.flash('error_msg', 'Please select a property.');
+        return res.redirect('/admin/matterport/add');
+    }
+
+    const result = detectMatterport(matterport_input);
+    if (!result.ok) {
+        req.flash('error_msg', result.error);
+        return res.redirect('/admin/matterport/add');
+    }
+
+    const existing = db.prepare(
+        'SELECT id FROM virtual_tours WHERE property_id = ? AND matterport_model_id = ?'
+    ).get(property_id, result.modelId);
+    if (existing) {
+        req.flash('error_msg', 'This Matterport tour already exists for this property.');
+        return res.redirect('/admin/matterport/add');
+    }
+
+    const published = (is_published === 'on' || is_published === '1') ? 1 : 0;
+    const featured  = (featured_on_homepage === 'on' || featured_on_homepage === '1') ? 1 : 0;
+
+    try {
+        db.prepare(`
+            INSERT INTO virtual_tours
+                (property_id, provider, matterport_model_id, matterport_url, status,
+                 is_published, featured_on_homepage, sort_order, created_at, updated_at)
+            VALUES (?, 'matterport', ?, ?, 'active', ?, ?, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        `).run(property_id, result.modelId, result.canonicalUrl, published, featured);
+
+        db.prepare('UPDATE properties SET has_virtual_tour = 1 WHERE id = ?').run(property_id);
+
+        req.flash('success_msg', 'Matterport tour added (Model ID: ' + result.modelId + ').');
+        res.redirect('/admin/matterport');
+    } catch (err) {
+        console.error('Matterport create error:', err);
+        req.flash('error_msg', 'Failed to save: ' + err.message);
+        res.redirect('/admin/matterport/add');
+    }
+});
+
+router.get('/matterport/:id/edit', isAdmin, (req, res) => {
+    const db = getDB();
+    const tour = db.prepare('SELECT * FROM virtual_tours WHERE id = ?').get(req.params.id);
+    if (!tour) {
+        req.flash('error_msg', 'Tour not found.');
+        return res.redirect('/admin/matterport');
+    }
+    const properties = db.prepare('SELECT id, title FROM properties ORDER BY title ASC').all();
+    res.render('pages/admin/matterport-edit', {
+        title: 'Edit Matterport Tour',
+        user: req.session.user,
+        tour: tour,
+        properties: properties,
+        layout: 'layouts/admin'
+    });
+});
+
+router.post('/matterport/:id/update', isAdmin, (req, res) => {
+    const db = getDB();
+    const { property_id, matterport_input, is_published, featured_on_homepage } = req.body;
+
+    const result = detectMatterport(matterport_input);
+    if (!result.ok) {
+        req.flash('error_msg', result.error);
+        return res.redirect('/admin/matterport/' + req.params.id + '/edit');
+    }
+
+    const published = (is_published === 'on' || is_published === '1') ? 1 : 0;
+    const featured  = (featured_on_homepage === 'on' || featured_on_homepage === '1') ? 1 : 0;
+
+    db.prepare(`
+        UPDATE virtual_tours
+        SET property_id = ?, provider = 'matterport',
+            matterport_model_id = ?, matterport_url = ?,
+            is_published = ?, featured_on_homepage = ?,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+    `).run(property_id, result.modelId, result.canonicalUrl, published, featured, req.params.id);
+
+    req.flash('success_msg', 'Matterport tour updated.');
+    res.redirect('/admin/matterport');
+});
+
+router.post('/matterport/:id/publish', isAdmin, (req, res) => {
+    const db = getDB();
+    const tour = db.prepare('SELECT is_published FROM virtual_tours WHERE id = ?').get(req.params.id);
+    if (tour) {
+        db.prepare('UPDATE virtual_tours SET is_published = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+          .run(tour.is_published ? 0 : 1, req.params.id);
+    }
+    res.redirect('/admin/matterport');
+});
+
+router.post('/matterport/:id/feature', isAdmin, (req, res) => {
+    const db = getDB();
+    const tour = db.prepare('SELECT featured_on_homepage FROM virtual_tours WHERE id = ?').get(req.params.id);
+    if (tour) {
+        db.prepare('UPDATE virtual_tours SET featured_on_homepage = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+          .run(tour.featured_on_homepage ? 0 : 1, req.params.id);
+    }
+    res.redirect('/admin/matterport');
+});
+
+router.post('/matterport/:id/delete', isAdmin, (req, res) => {
+    const db = getDB();
+    const tour = db.prepare('SELECT property_id FROM virtual_tours WHERE id = ?').get(req.params.id);
+    if (tour) {
+        db.prepare('DELETE FROM virtual_tours WHERE id = ?').run(req.params.id);
+        const remaining = db.prepare('SELECT COUNT(*) as c FROM virtual_tours WHERE property_id = ?').get(tour.property_id);
+        if (remaining.c === 0) {
+            db.prepare('UPDATE properties SET has_virtual_tour = 0 WHERE id = ?').run(tour.property_id);
+        }
+    }
+    req.flash('success_msg', 'Matterport tour deleted.');
+    res.redirect('/admin/matterport');
 });
 
 module.exports = router;
